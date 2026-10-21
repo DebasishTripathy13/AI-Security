@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Security Cheat Sheet</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem('aisec-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<style>
+  .cs .card { padding: 12px 14px; }
+  .cs .card h3 { font-size: 1rem; margin: 0 0 6px; }
+  .cs .card ol, .cs .card ul { margin: 0; padding-left: 1.15rem; font-size: .9rem; }
+  .cs .card li { margin: .12rem 0; }
+  .cs table { font-size: .87rem; }
+  .cs th, .cs td { padding: 6px 9px; }
+  @media print { .cs .grid { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<nav id="sidebar" aria-label="Guide navigation"></nav>
+<main id="main" class="cs">
+
+<header class="page-head">
+  <div class="eyebrow">Module 15 · Read this in the morning</div>
+  <h1>Night-before cheat sheet</h1>
+  <p class="lede">Everything on one page. Print it (<kbd>Ctrl</kbd>+<kbd>P</kbd>) or skim it 20 minutes before the interview.</p>
+</header>
+
+<h2 id="core-lists">Core lists</h2>
+<div class="grid two">
+  <div class="card"><h3 id="owasp-llm-top-10-2025">OWASP LLM Top 10 (2025)</h3><ol>
+    <li><b>Prompt Injection</b>: contain blast radius, Prompt Shields, spotlighting</li>
+    <li><b>Sensitive Info Disclosure</b>: permission-aware data, DLP, redaction</li>
+    <li><b>Supply Chain</b>: AI-BOM, signing, safetensors</li>
+    <li><b>Data &amp; Model Poisoning</b>: provenance, validation, red team</li>
+    <li><b>Improper Output Handling</b>: encode, parameterize, sandbox</li>
+    <li><b>Excessive Agency</b>: minimal tools/perms/autonomy, HITL</li>
+    <li><b>System Prompt Leakage</b>: no secrets, rules in code</li>
+    <li><b>Vector &amp; Embedding Weaknesses</b>: ACL filters, tenant isolation</li>
+    <li><b>Misinformation</b>: grounding, citations, human review</li>
+    <li><b>Unbounded Consumption</b>: quotas, token caps, budgets</li>
+  </ol><p class="small muted" style="margin:.4rem 0 0">"Please Send Six Dogs In Every Single Van, Mostly Unharmed"</p></div>
+  <div class="card"><h3 id="owasp-agentic-top-10-2026">OWASP Agentic Top 10 (2026)</h3><ol>
+    <li><b>ASI01 Agent Goal Hijack</b>: untrusted input, intent lock</li>
+    <li><b>ASI02 Tool Misuse &amp; Exploitation</b>: tool gateway + policy</li>
+    <li><b>ASI03 Identity &amp; Privilege Abuse</b>: agent ID, OBO, short tokens</li>
+    <li><b>ASI04 Agentic Supply Chain</b>: registry, pin, hash, sign</li>
+    <li><b>ASI05 Unexpected Code Execution</b>: sandbox, no network</li>
+    <li><b>ASI06 Memory &amp; Context Poisoning</b>: segment, provenance, TTL</li>
+    <li><b>ASI07 Insecure Inter-Agent Comms</b>: mTLS, signed msgs, typed</li>
+    <li><b>ASI08 Cascading Failures</b>: circuit breakers, validation gates</li>
+    <li><b>ASI09 Human-Agent Trust Exploitation</b>: honest approval UX</li>
+    <li><b>ASI10 Rogue Agents</b>: inventory, monitoring, kill switch</li>
+  </ol></div>
+  <div class="card"><h3 id="owasp-top-10-web-2025-2021-in-brackets">OWASP Top 10 Web: 2025 (2021 in brackets)</h3><ol>
+    <li>Broken Access Control, incl. SSRF (A01)</li>
+    <li>Security Misconfiguration (A05)</li>
+    <li>Software Supply Chain Failures (A06, broadened)</li>
+    <li>Cryptographic Failures (A02)</li>
+    <li>Injection (A03)</li>
+    <li>Insecure Design (A04)</li>
+    <li>Authentication Failures (A07)</li>
+    <li>Software or Data Integrity Failures (A08)</li>
+    <li>Security Logging &amp; Alerting Failures (A09)</li>
+    <li><b>Mishandling of Exceptional Conditions</b> (new)</li>
+  </ol></div>
+  <div class="card"><h3 id="owasp-api-top-10-2023">OWASP API Top 10 (2023)</h3><ol>
+    <li>BOLA</li><li>Broken Authentication</li><li>Broken Object Property Level AuthZ</li><li>Unrestricted Resource Consumption</li><li>BFLA</li>
+    <li>Unrestricted Access to Sensitive Business Flows</li><li>SSRF</li><li>Security Misconfiguration</li><li>Improper Inventory Management</li><li>Unsafe Consumption of APIs</li>
+  </ol></div>
+</div>
+
+<h2 id="mitre-atlas">MITRE ATLAS</h2>
+<div class="grid two">
+  <div class="card"><h3 id="16-tactics-matrix-order">16 tactics (matrix order)</h3><p class="small" style="margin:0">Reconnaissance → Resource Development → Initial Access → <b>AI Model Access</b> → Execution → Persistence → Privilege Escalation → Defense Evasion → Credential Access → Discovery → Lateral Movement → Collection → <b>AI Attack Staging</b> → Command &amp; Control → Exfiltration → Impact</p>
+  <p class="small muted" style="margin:.5rem 0 0">Bold = AI-specific. v5.6.0: ~100 techniques + ~70 sub-techniques, 35 mitigations, 57 case studies. Grew from the 2020 Adversarial ML Threat Matrix (MITRE + Microsoft).</p></div>
+  <div class="card"><h3 id="ids-to-remember">IDs to remember</h3><ul>
+    <li><b>T0051</b> LLM Prompt Injection (.000 direct, .001 indirect, .002 triggered)</li>
+    <li><b>T0054</b> Jailbreak · <b>T0056</b> Extract System Prompt · <b>T0057</b> LLM Data Leakage</li>
+    <li><b>T0053</b> AI Agent Tool Invocation · <b>T0086</b> Exfil via Agent Tool</li>
+    <li><b>T0070</b> RAG Poisoning · <b>T0080</b> Agent Context Poisoning</li>
+    <li><b>T0020</b> Poison Training Data · <b>T0018</b> Manipulate AI Model</li>
+    <li><b>T0010</b> AI Supply Chain Compromise · <b>T0043</b> Craft Adversarial Data</li>
+    <li><b>T0024</b> Exfil via Inference API (membership / inversion / extraction)</li>
+    <li><b>T0077</b> LLM Response Rendering · <b>T0034</b> Cost Harvesting</li>
+  </ul></div>
+</div>
+
+<h2 id="governance">Governance</h2>
+<div class="grid three">
+  <div class="card"><h3 id="nist-ai-rmf-1-0-jan-2023">NIST AI RMF 1.0 (Jan 2023)</h3><ul>
+    <li><b>Govern</b> (center) · <b>Map</b> · <b>Measure</b> · <b>Manage</b></li>
+    <li>Trustworthy: valid &amp; reliable, safe, secure &amp; resilient, accountable &amp; transparent, explainable &amp; interpretable, privacy-enhanced, fair</li>
+    <li><b>AI 600-1</b> GenAI Profile: 12 risks (CBRN, confabulation, dangerous content, privacy, environment, bias, human-AI config, info integrity, info security, IP, obscene content, value chain)</li>
+    <li><b>AI 100-2 E2025</b>: AML taxonomy</li>
+  </ul></div>
+  <div class="card"><h3 id="eu-ai-act">EU AI Act</h3><ul>
+    <li>In force <b>1 Aug 2024</b>; bans <b>2 Feb 2025</b>; GPAI <b>2 Aug 2025</b>; most high-risk <b>2 Aug 2026</b>; Annex I products <b>2 Aug 2027</b> (some delays proposed)</li>
+    <li>Tiers: unacceptable · high · limited (transparency) · minimal</li>
+    <li><b>Art. 15</b>: accuracy, robustness, cybersecurity (names poisoning, adversarial examples, confidentiality attacks)</li>
+    <li>Systemic GPAI: &gt;10<sup>25</sup> FLOPs; adversarial testing, incident reporting</li>
+    <li>Fines up to <b>€35M / 7%</b></li>
+  </ul></div>
+  <div class="card"><h3 id="other-frameworks">Other frameworks</h3><ul>
+    <li><b>ISO/IEC 42001</b>: certifiable AI management system; <b>23894</b>: AI risk guidance</li>
+    <li><b>Google SAIF</b>: 6 elements (foundations, detection &amp; response, automate, harmonize, adapt, contextualize)</li>
+    <li><b>CSA MAESTRO</b>: 7-layer agentic threat model</li>
+    <li><b>NCSC/CISA</b> secure AI dev: design · develop · deploy · operate</li>
+    <li><b>OWASP AIVSS</b>: agentic vulnerability scoring</li>
+  </ul></div>
+</div>
+
+<h2 id="microsoft-pyrit">Microsoft &amp; PyRIT</h2>
+<div class="grid three">
+  <div class="card"><h3 id="microsoft">Microsoft</h3><ul>
+    <li>RAI principles: <b>Fairness, Reliability &amp; Safety, Privacy &amp; Security, Inclusiveness, Transparency, Accountability</b></li>
+    <li>Mitigation layers: model · safety system · system message &amp; grounding · UX</li>
+    <li>Content Safety: harm filters, <b>Prompt Shields</b> (user + document attacks), groundedness, protected material, task adherence</li>
+    <li><b>Spotlighting</b>: delimiting · datamarking · encoding (&gt;50% → &lt;2% ASR in their tests)</li>
+    <li>Defender AI threat protection + <b>AI-SPM</b>; Purview <b>DSPM for AI</b>; <b>Entra Agent ID</b>; APIM AI gateway</li>
+  </ul></div>
+  <div class="card"><h3 id="pyrit">PyRIT</h3><ul>
+    <li>Microsoft AI Red Team, open source since Feb 2024</li>
+    <li><b>Targets · Attacks/executors · Converters · Scorers · Memory · Datasets · Scenarios</b></li>
+    <li>Old name: orchestrators → now attacks (PromptSending, RedTeaming, Crescendo, TAP)</li>
+    <li>Modes: Python framework · <code>pyrit_scan</code> CLI · CoPyRIT GUI</li>
+    <li>Powers the Foundry AI Red Teaming Agent</li>
+  </ul></div>
+  <div class="card"><h3 id="ai-red-team-8-lessons">AI Red Team: 8 lessons</h3><ol>
+    <li>Know what the system can do</li><li>No gradients needed</li><li>Red teaming ≠ benchmarking</li><li>Automation scales coverage</li>
+    <li>Humans are crucial</li><li>RAI harms are hard to measure</li><li>LLMs amplify old risks + add new</li><li>Never finished</li>
+  </ol></div>
+</div>
+
+<h2 id="design-rules">Design rules</h2>
+<div class="grid two">
+  <div class="card"><h3 id="principles-to-repeat">Principles to repeat</h3><ul>
+    <li><b>The LLM is not a security boundary.</b> Model proposes, code decides.</li>
+    <li><b>Everything in context is untrusted</b> (docs, web, email, tools, memory, agents).</li>
+    <li><b>Lethal trifecta</b>: private data + untrusted content + external comms → exfiltration.</li>
+    <li><b>Rule of Two</b> (Meta): at most 2 of [untrusted input, sensitive access, state change / external comms] without HITL.</li>
+    <li><b>Least agency</b>: minimal tools, scopes, autonomy.</li>
+    <li><b>User-scoped, short-lived tokens</b> (OBO); no secrets in prompts.</li>
+    <li><b>Risk-tiered HITL</b>; beware approval fatigue.</li>
+    <li><b>Deterministic controls</b> for guarantees; classifiers for noise reduction.</li>
+  </ul></div>
+  <div class="card"><h3 id="injection-resistant-patterns">Injection-resistant patterns</h3><ul>
+    <li><b>Action-Selector</b>: fixed actions, no feedback</li>
+    <li><b>Plan-Then-Execute</b>: plan before reading untrusted data</li>
+    <li><b>LLM Map-Reduce</b>: isolated sub-agents per item</li>
+    <li><b>Dual LLM</b>: privileged planner + quarantined reader, opaque variables</li>
+    <li><b>Code-Then-Execute / CaMeL</b>: provenance-tracking interpreter + policies</li>
+    <li><b>Context-Minimization</b>: drop unneeded context</li>
+    <li>Model-level: instruction hierarchy, spotlighting, Prompt Shields</li>
+  </ul></div>
+</div>
+
+<h2 id="guardrails-harness-evals" data-short="Guardrails, harness, evals">Guardrails, harness &amp; evals</h2>
+<div class="grid three">
+  <div class="card"><h3 id="guardrails">Guardrails</h3><ul>
+    <li>Positions: <b>input · context/retrieval · dialog · action/tool · output</b></li>
+    <li>Deterministic (schemas, allowlists, OPA) for guarantees; classifiers (Prompt Shields, Llama Guard) for risk reduction</li>
+    <li>Implemented as middleware: Agents SDK guardrails, LangChain middleware, SK filters, Claude Code hooks, NeMo rails</li>
+    <li><b>Fail closed</b>, generic refusals, log every decision</li>
+    <li>Tune with recall, FPR, precision, latency; shadow mode first</li>
+  </ul></div>
+  <div class="card"><h3 id="agent-harness">Agent harness</h3><ul>
+    <li>Agent = <b>model + harness</b> (loop, context, tools, permissions, hooks, sandbox, memory, telemetry)</li>
+    <li>Defaults: read-only, ask before write/exec/network, deny secrets</li>
+    <li>Narrow typed tools; identity from the session, never the model</li>
+    <li>Budgets: steps, tokens, time, money; checkpoints for rollback</li>
+    <li>Protect harness config from the agent (CurXecute lesson)</li>
+  </ul></div>
+  <div class="card"><h3 id="eval-harness">Eval harness</h3><ul>
+    <li>Dataset → runner (N trials) → system → scorers → aggregate → gate</li>
+    <li>Record: model version, prompt hash, temperature, seed, N, dataset/judge versions, guardrail config</li>
+    <li>Report ASR <b>with</b> utility and over-refusal</li>
+    <li>LLM judge: binary rubric, different model family, Cohen's κ vs humans</li>
+    <li>Tools: lm-eval-harness, Inspect, promptfoo, RAGAS, DeepEval</li>
+  </ul></div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Metric</th><th>Formula</th><th>Metric</th><th>Formula</th></tr></thead>
+<tbody>
+<tr><td>ASR</td><td><span class="formula">successes / attempts</span></td><td>Recall (TPR)</td><td><span class="formula">TP / (TP+FN)</span></td></tr>
+<tr><td>FPR</td><td><span class="formula">FP / (FP+TN)</span></td><td>Precision</td><td><span class="formula">TP / (TP+FP)</span></td></tr>
+<tr><td>F1</td><td><span class="formula">2PR / (P+R)</span></td><td>Faithfulness</td><td><span class="formula">supported claims / claims</span></td></tr>
+<tr><td>pass@k</td><td><span class="formula">1 − C(n−c,k)/C(n,k)</span></td><td>pass^k</td><td><span class="formula">C(c,k)/C(n,k)</span></td></tr>
+<tr><td>Cohen's κ</td><td><span class="formula">(pₒ − pₑ)/(1 − pₑ)</span></td><td>Zero events</td><td>95% upper bound ≈ <span class="formula">3/n</span></td></tr>
+</tbody></table></div>
+<p class="small">Worked numbers: 6/50 → ASR 12%, CI 5.6–23.8% · 0/50 → still up to 7.1% · 7/10 successes → pass@3 ≈ 99%, pass^3 ≈ 29%.</p>
+
+<h2 id="incidents-and-numbers">Incidents and numbers</h2>
+<div class="grid two">
+  <div class="card"><h3 id="incidents-year-lesson">Incidents (year → lesson)</h3><ul>
+    <li><b>Tay</b> 2016: online poisoning</li>
+    <li><b>Bing "Sydney"</b> 2023: system prompt leak</li>
+    <li><b>Samsung</b> 2023: employees leaking code to ChatGPT</li>
+    <li><b>Chevy $1 Tahoe</b> 2023 / <b>Air Canada</b> 2024: bots making commitments</li>
+    <li><b>ShadowRay</b> 2023–24: unauthenticated AI infra</li>
+    <li><b>PoisonGPT</b> 2023: poisoned model on a hub</li>
+    <li><b>Slack AI</b> 2024: RAG + link exfiltration</li>
+    <li><b>SpAIware</b> 2024: memory poisoning</li>
+    <li><b>EchoLeak</b> 2025 (CVE-2025-32711): zero-click Copilot exfiltration</li>
+    <li><b>GitHub MCP toxic flow</b> 2025 · <b>Supabase MCP</b> 2025</li>
+    <li><b>Replit</b> 2025: agent deleted prod DB · <b>Amazon Q</b> 2025: wiper prompt</li>
+    <li><b>CurXecute</b> 2025: agent-written config → RCE · <b>postmark-mcp</b> 2025: malicious MCP</li>
+  </ul></div>
+  <div class="card"><h3 id="numbers-worth-quoting">Numbers worth quoting</h3><ul>
+    <li><b>~250</b> poisoned docs backdoored LLMs of all sizes (Anthropic/UK AISI/Turing, 2025)</li>
+    <li><b>~5</b> passages per question → <b>~90%</b> ASR (PoisonedRAG)</li>
+    <li><b>92%</b> of 32-token inputs exactly recovered from embeddings (Vec2Text)</li>
+    <li><b>~$60</b> to poison <b>0.01%</b> of LAION-400M (split-view poisoning)</li>
+    <li>Spotlighting: <b>&gt;50% → &lt;2%</b> indirect-injection ASR (Microsoft)</li>
+    <li>CaMeL: about <b>2/3</b> of AgentDojo tasks solved with provable security</li>
+    <li>EU AI Act: <b>€35M / 7%</b>; <b>10<sup>25</sup> FLOPs</b> systemic-risk threshold</li>
+    <li>ATLAS: <b>16</b> tactics · <b>35</b> mitigations · <b>57</b> case studies (v5.6.0)</li>
+  </ul></div>
+</div>
+
+<h2 id="30-second-answers" data-short="30-second answers">30-second answers</h2>
+<div class="tbl"><table>
+<tbody>
+<tr><td><b>"Biggest risk in LLM apps?"</b></td><td>Indirect prompt injection combined with excessive agency. Untrusted content steers a model that holds real permissions. Fix it with containment: least privilege, user-scoped tokens, deterministic authZ, egress control, HITL.</td></tr>
+<tr><td><b>"How do you secure RAG?"</b></td><td>Enforce document permissions at retrieval (pre-filter from the authenticated identity plus a live check), isolate tenants, scan and spotlight retrieved content, keep the bot read-only, add groundedness and DLP on output, and test with canary docs.</td></tr>
+<tr><td><b>"How do you secure agents?"</b></td><td>Check the lethal trifecta. Give agents identity and OBO tokens, put a tool gateway with policy-as-code in front of tools, sandbox execution, segment memory, use risk-tiered HITL, add budgets and circuit breakers, log everything, and keep a kill switch.</td></tr>
+<tr><td><b>"MCP risks?"</b></td><td>Tool poisoning, rug pulls, tool shadowing, injection via results, token theft and passthrough, local server RCE, and over-scoped tokens. Use an allowlist registry, pin and hash definitions, sandbox, OAuth 2.1 with no passthrough, and a gateway with logging.</td></tr>
+<tr><td><b>"OWASP vs ATLAS vs NIST?"</b></td><td>OWASP says what can go wrong (builders). ATLAS says how attackers do it (red team and SOC). NIST AI RMF says how to govern risk (leadership).</td></tr>
+<tr><td><b>"What is PyRIT?"</b></td><td>Microsoft's open-source GenAI red-team automation: targets, attacks (single and multi-turn, e.g. Crescendo and TAP), converters, scorers and memory. It scales attacks so humans can focus on creative and business-logic abuse.</td></tr>
+<tr><td><b>"Is prompt injection solvable?"</b></td><td>Not at the model level today. Treat it as a design constraint: limit the blast radius, use injection-resistant patterns (plan-then-execute, dual LLM, CaMeL), and layer classifiers to lower the rate.</td></tr>
+<tr><td><b>"How do you design guardrails?"</b></td><td>Five rail positions (input, context, dialog, action, output). Deterministic rails for must-never-happen rules, classifiers to reduce risk. Implement as middleware, fail closed, log decisions, tune on real traffic with recall and FPR.</td></tr>
+<tr><td><b>"What would you measure?"</b></td><td>ASR per attack class and channel, leakage canaries, unauthorized actions, plus task success, over-refusal, faithfulness, latency and cost. N trials, Wilson CIs, pass^k for agents, gates in CI.</td></tr>
+<tr><td><b>"What is harness engineering?"</b></td><td>Designing the runtime around the model (loop, context, tools, permissions, hooks, sandbox, telemetry) so security guarantees hold even when the model is hijacked.</td></tr>
+<tr><td><b>"First 90 days?"</b></td><td>Inventory (including shadow AI), policy and intake, risk-tier, reference architectures, threat model and red-team top systems, CI evals, monitoring and IR, training, aligned to NIST AI RMF.</td></tr>
+</tbody></table></div>
+
+<h2 id="acronyms">Acronyms</h2>
+<div class="tbl"><table>
+<tbody>
+<tr><td><b>ASR</b> attack success rate</td><td><b>XPIA / UPIA</b> cross-prompt / user-prompt injection attack</td><td><b>HITL</b> human in the loop</td></tr>
+<tr><td><b>OBO</b> on-behalf-of (OAuth)</td><td><b>PEP / PDP</b> policy enforcement / decision point</td><td><b>AI-BOM</b> AI bill of materials</td></tr>
+<tr><td><b>MCP</b> Model Context Protocol</td><td><b>A2A</b> Agent2Agent protocol</td><td><b>RAG</b> retrieval-augmented generation</td></tr>
+<tr><td><b>TPR / FPR</b> true / false positive rate</td><td><b>pass^k</b> all k runs succeed</td><td><b>κ</b> Cohen's kappa (judge agreement)</td></tr>
+<tr><td><b>GCG</b> greedy coordinate gradient</td><td><b>PAIR / TAP</b> iterative refinement / tree of attacks</td><td><b>DP</b> differential privacy</td></tr>
+<tr><td><b>AI-SPM</b> AI security posture mgmt</td><td><b>DSPM</b> data security posture mgmt</td><td><b>GPAI</b> general-purpose AI</td></tr>
+<tr><td><b>BOLA / BFLA</b> object / function-level authZ</td><td><b>AIVSS</b> AI vuln scoring system</td><td><b>SAIF</b> Secure AI Framework</td></tr>
+</tbody></table></div>
+
+<div class="callout say"><span class="ct">Last tip</span>If you don't know something, say how you'd find out ("I'd check the current MCP authorization spec / ATLAS matrix"), then reason from first principles: <b>where does untrusted input enter, what can the system do, whose identity does it use, and how would we detect and contain abuse?</b> That framework answers almost any AI security question.</div>
+
+</main>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

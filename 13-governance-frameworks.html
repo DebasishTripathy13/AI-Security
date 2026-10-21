@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Governance Frameworks</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem('aisec-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body>
+<svg class="defs" aria-hidden="true"><defs>
+<marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker>
+</defs></svg>
+<nav id="sidebar" aria-label="Guide navigation"></nav>
+<main id="main">
+
+<header class="page-head">
+  <div class="eyebrow">Module 13 · Governance, risk &amp; compliance</div>
+  <h1>NIST, ISO, EU AI Act, SAIF, MAESTRO and more</h1>
+  <p class="lede">Senior AI security roles always include governance questions: "How would you set up an AI security program?", "Which framework would you use?", "What does the EU AI Act require?" This module gives you crisp, accurate answers.</p>
+  <div class="meta"><span class="pill">⏱ 30 min</span><span class="pill">Priority ★★★</span></div>
+</header>
+
+<div class="tldr"><div class="tldr-h">Key takeaways</div><ul>
+  <li>NIST AI RMF: Govern, Map, Measure, Manage. AI 600-1 adds 12 GenAI risks.</li>
+  <li>ISO/IEC 42001 is the certifiable AI management system ("27001 for AI").</li>
+  <li>EU AI Act: four risk tiers, GPAI duties, Art. 15 explicitly names AI attacks, and fines up to €35M / 7%.</li>
+  <li>Program order: inventory → policy → risk tiering → controls → assurance → operate → culture.</li>
+</ul></div>
+
+
+<h2 id="nist-ai-risk-management-framework-ai-rmf-1-0" data-short="NIST AI RMF">NIST AI Risk Management Framework (AI RMF 1.0)</h2>
+<div class="grid two">
+<figure class="diagram narrow" style="margin:0">
+<svg class="svgd" viewBox="0 0 640 380" role="img" aria-label="NIST AI RMF core: Govern at the center, with Map, Measure and Manage around it">
+  <circle cx="320" cy="200" r="78" class="box-a"/>
+  <text x="320" y="196" text-anchor="middle" class="t-b">GOVERN</text>
+  <text x="320" y="215" text-anchor="middle" class="t-s">culture · policies</text>
+  <text x="320" y="231" text-anchor="middle" class="t-s">accountability</text>
+  <circle cx="320" cy="62" r="52" class="box-b"/>
+  <text x="320" y="58" text-anchor="middle" class="t-b">MAP</text>
+  <text x="320" y="76" text-anchor="middle" class="t-s">context · risks</text>
+  <circle cx="500" cy="300" r="52" class="box-g"/>
+  <text x="500" y="296" text-anchor="middle" class="t-b">MEASURE</text>
+  <text x="500" y="314" text-anchor="middle" class="t-s">test · track</text>
+  <circle cx="140" cy="300" r="52" class="box-y"/>
+  <text x="140" y="296" text-anchor="middle" class="t-b">MANAGE</text>
+  <text x="140" y="314" text-anchor="middle" class="t-s">prioritize · act</text>
+  <path d="M368 80 Q470 140 490 246" class="ln"/>
+  <path d="M448 318 Q320 370 192 318" class="ln"/>
+  <path d="M150 246 Q170 140 272 80" class="ln"/>
+</svg>
+</figure>
+<div>
+  <p>Published <b>January 2023</b>. It's <b>voluntary</b>, sector-agnostic, and outcome-focused.</p>
+  <ul>
+    <li><b>GOVERN</b> (cross-cutting): risk culture, policies, roles, accountability, third-party risk, workforce diversity.</li>
+    <li><b>MAP</b>: establish context (purpose, users, impacts), categorize the system, identify risks and benefits.</li>
+    <li><b>MEASURE</b>: assess, analyze and track risks with quantitative and qualitative methods (testing, red teaming, metrics).</li>
+    <li><b>MANAGE</b>: prioritize and treat risks, respond to incidents, monitor deployed systems, decommission.</li>
+  </ul>
+  <p>It's supported by the <b>AI RMF Playbook</b> (suggested actions per subcategory) and <b>Profiles</b> (use-case-specific implementations).</p>
+</div>
+</div>
+<h3 id="characteristics-of-trustworthy-ai-ai-rmf">Characteristics of trustworthy AI (AI RMF)</h3>
+<div class="grid three">
+  <div class="card"><b>Valid &amp; Reliable</b><p class="small muted">The base of the others</p></div>
+  <div class="card"><b>Safe</b></div>
+  <div class="card"><b>Secure &amp; Resilient</b></div>
+  <div class="card"><b>Accountable &amp; Transparent</b></div>
+  <div class="card"><b>Explainable &amp; Interpretable</b></div>
+  <div class="card"><b>Privacy-Enhanced</b></div>
+  <div class="card"><b>Fair, with Harmful Bias Managed</b></div>
+</div>
+
+<h3 id="nist-ai-600-1-generative-ai-profile-july-2024">NIST AI 600-1: Generative AI Profile (July 2024)</h3>
+<p>A cross-sector profile of the AI RMF for GenAI. It defines <b>12 risks</b> that are unique to or exacerbated by GenAI, and maps 200+ suggested actions to the RMF functions.</p>
+<div class="tbl"><table>
+<thead><tr><th>#</th><th>GenAI risk</th><th>#</th><th>GenAI risk</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><b>CBRN information or capabilities</b></td><td>7</td><td><b>Human-AI configuration</b> (overreliance, anthropomorphism)</td></tr>
+<tr><td>2</td><td><b>Confabulation</b> (hallucination)</td><td>8</td><td><b>Information integrity</b> (mis/disinformation)</td></tr>
+<tr><td>3</td><td><b>Dangerous, violent or hateful content</b></td><td>9</td><td><b>Information security</b> (lowered barriers for cyberattacks; attacks on GenAI like prompt injection and poisoning)</td></tr>
+<tr><td>4</td><td><b>Data privacy</b></td><td>10</td><td><b>Intellectual property</b></td></tr>
+<tr><td>5</td><td><b>Environmental impacts</b></td><td>11</td><td><b>Obscene, degrading and/or abusive content</b></td></tr>
+<tr><td>6</td><td><b>Harmful bias and homogenization</b></td><td>12</td><td><b>Value chain and component integration</b> (third-party components)</td></tr>
+</tbody></table></div>
+
+<h3 id="other-nist-publications-to-name-drop">Other NIST publications to name-drop</h3>
+<ul>
+  <li><b>NIST AI 100-2 E2025</b>: Adversarial Machine Learning taxonomy and terminology (evasion, poisoning, privacy, misuse, direct and indirect prompt injection). See <a href="01-foundations.html">module 01</a>.</li>
+  <li><b>SP 800-218A</b> (2024): Secure Software Development Framework (SSDF) community profile for generative AI and dual-use foundation models.</li>
+  <li><b>Dioptra</b>: NIST's open-source testbed for evaluating AI model robustness against attacks.</li>
+  <li>Ongoing work on a <b>Cyber AI Profile</b> (CSF 2.0 applied to AI) and <b>SP 800-53 control overlays for securing AI systems</b>. Check the current status before citing details.</li>
+</ul>
+
+<h2 id="iso-iec-42001-and-the-iso-ai-family" data-short="ISO/IEC 42001 & family">ISO/IEC 42001 and the ISO AI family</h2>
+<div class="grid two">
+  <div class="card"><h4>ISO/IEC 42001:2023: AI management system (AIMS)</h4><ul>
+    <li>The first <b>certifiable</b> AI management system standard. Think "ISO 27001 for AI".</li>
+    <li>Same high-level structure: clauses 4–10 (context, leadership, planning, support, operation, performance evaluation, improvement), Plan-Do-Check-Act.</li>
+    <li>Requires an <b>AI risk assessment</b>, an <b>AI system impact assessment</b>, an AI policy, objectives, and a <b>Statement of Applicability</b> against Annex A controls (e.g. data for AI, AI system lifecycle, third-party relationships, information for interested parties).</li>
+    <li>Increasingly asked for in vendor due diligence.</li>
+  </ul></div>
+  <div class="card"><h4>Related standards</h4><ul>
+    <li><b>ISO/IEC 23894:2023</b>: guidance on AI risk management (applies ISO 31000 to AI)</li>
+    <li><b>ISO/IEC 22989</b>: AI concepts and terminology</li>
+    <li><b>ISO/IEC 5338</b>: AI system lifecycle processes</li>
+    <li><b>ISO/IEC 42005</b>: AI system impact assessment</li>
+    <li><b>ISO/IEC 42006</b>: requirements for bodies certifying 42001</li>
+    <li><b>ISO/IEC 27001 / 27701</b>: infosec and privacy management (integrate with 42001)</li>
+    <li><b>ISO/IEC 27090</b> (in development): security threats and controls for AI systems</li>
+  </ul></div>
+</div>
+
+<h2 id="eu-ai-act-regulation-eu-2024-1689" data-short="EU AI Act">EU AI Act (Regulation (EU) 2024/1689)</h2>
+<p>The world's first comprehensive AI law. It <b>entered into force on 1 August 2024</b> and applies in phases. It has <b>extraterritorial</b> reach: it applies to providers placing AI on the EU market and to deployers in the EU, wherever the provider is based.</p>
+<div class="pyramid">
+  <div class="p1"><b>Unacceptable risk: prohibited</b>Social scoring · manipulative/exploitative techniques · untargeted facial-image scraping · emotion recognition at work/school · biometric categorization by sensitive traits · most real-time remote biometric ID in public for law enforcement · predictive policing based solely on profiling</div>
+  <div class="p2"><b>High risk: strict obligations</b>Annex III areas (biometrics, critical infrastructure, education, employment, essential services incl. credit scoring, law enforcement, migration, justice) + safety components of regulated products. Requirements: risk management, data governance, documentation, logging, transparency, human oversight, <b>accuracy, robustness &amp; cybersecurity (Art. 15)</b>, conformity assessment, registration, post-market monitoring</div>
+  <div class="p3"><b>Limited risk: transparency</b>Tell people they're talking to an AI (chatbots); label deepfakes; mark AI-generated content machine-readably</div>
+  <div class="p4"><b>Minimal risk: no new obligations</b>Spam filters, AI in games, most business tools (voluntary codes)</div>
+</div>
+<div class="grid two">
+  <div class="card"><h4>General-purpose AI (GPAI) models</h4><ul>
+    <li><b>All GPAI providers</b>: technical documentation, information for downstream providers, copyright policy, public summary of training content.</li>
+    <li><b>GPAI with systemic risk</b> (presumed above 10<sup>25</sup> FLOPs of training compute, or designated): model evaluations incl. <b>adversarial testing</b>, systemic-risk assessment and mitigation, <b>serious incident reporting</b>, <b>adequate cybersecurity</b> for the model and infrastructure.</li>
+    <li>The <b>GPAI Code of Practice</b> (July 2025) has chapters on transparency, copyright, and safety &amp; security.</li>
+  </ul></div>
+  <div class="card"><h4>Article 15: the security article</h4><p>High-risk AI must achieve appropriate <b>accuracy, robustness and cybersecurity</b>, and be resilient to attempts to alter its use or performance by exploiting vulnerabilities. The text names AI-specific attacks: <b>data poisoning, model poisoning, adversarial examples / model evasion, confidentiality attacks, and model flaws</b>.</p>
+  <p class="small muted">Good to quote: it shows the law explicitly expects AI-specific security controls.</p></div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th class="nowrap">Date</th><th>What applies</th></tr></thead>
+<tbody>
+<tr><td>1 Aug 2024</td><td>Entry into force</td></tr>
+<tr><td>2 Feb 2025</td><td>Prohibited practices banned; AI literacy obligations</td></tr>
+<tr><td>2 Aug 2025</td><td>GPAI model obligations; governance (AI Office, national authorities); penalties</td></tr>
+<tr><td>2 Aug 2026</td><td>Most remaining provisions, incl. Annex III high-risk systems and transparency duties</td></tr>
+<tr><td>2 Aug 2027</td><td>High-risk AI embedded in regulated products (Annex I); legacy GPAI models comply</td></tr>
+</tbody></table></div>
+<p class="small"><b>Penalties</b>: up to <b>€35M or 7%</b> of global annual turnover for prohibited practices; up to €15M or 3% for most other obligations; up to €7.5M or 1% for supplying incorrect information. <b>Watch</b>: in Nov 2025 the European Commission proposed a "Digital Omnibus" that would postpone some high-risk deadlines. Check the current status before quoting high-risk dates.</p>
+
+<h2 id="google-secure-ai-framework-saif-and-cosai" data-short="Google SAIF & CoSAI">Google Secure AI Framework (SAIF) and CoSAI</h2>
+<p>Google's <b>SAIF</b> (June 2023) has six core elements:</p>
+<ol>
+  <li><b>Expand strong security foundations</b> to the AI ecosystem</li>
+  <li><b>Extend detection and response</b> to bring AI into the organization's threat universe</li>
+  <li><b>Automate defenses</b> to keep pace with existing and new threats</li>
+  <li><b>Harmonize platform-level controls</b> for consistent security across the organization</li>
+  <li><b>Adapt controls</b> to adjust mitigations and create faster feedback loops (incl. red teaming)</li>
+  <li><b>Contextualize AI system risks</b> in surrounding business processes</li>
+</ol>
+<p>Google also co-founded <b>CoSAI</b> (Coalition for Secure AI, OASIS, July 2024) with other major AI companies. Its workstreams cover AI software supply chain security, preparing defenders, and AI security risk governance, plus agentic security.</p>
+
+<h2 id="csa-maestro-threat-modeling-for-agentic-ai" data-short="CSA MAESTRO & AICM">CSA MAESTRO: threat modeling for agentic AI</h2>
+<p><b>MAESTRO</b> (Multi-Agent Environment, Security, Threat, Risk, and Outcome), from the Cloud Security Alliance (Feb 2025), is a layered threat-modeling approach for agentic systems. You analyze threats <em>per layer</em> and <em>across layers</em>.</p>
+<div class="stack">
+  <div class="layer"><b>L7 · Agent Ecosystem</b><span>Marketplaces, agent-to-agent interactions, users: impersonation, malicious agents, trust abuse</span></div>
+  <div class="layer"><b>L6 · Security &amp; Compliance</b><span>Vertical layer across all: policy, compliance, security controls for agents</span></div>
+  <div class="layer"><b>L5 · Evaluation &amp; Observability</b><span>Monitoring, evals, logging: poisoned metrics, evasion of detection</span></div>
+  <div class="layer"><b>L4 · Deployment &amp; Infrastructure</b><span>Containers, cloud, orchestration: compromised infra, lateral movement</span></div>
+  <div class="layer"><b>L3 · Agent Frameworks</b><span>LangChain, AutoGen, MCP: framework vulns, tool and supply chain attacks</span></div>
+  <div class="layer"><b>L2 · Data Operations</b><span>RAG, vector DBs, pipelines: poisoning, exfiltration</span></div>
+  <div class="layer"><b>L1 · Foundation Models</b><span>The LLMs: jailbreaks, backdoors, extraction</span></div>
+</div>
+<p class="small">CSA also publishes the <b>AI Controls Matrix (AICM)</b> (2025), a vendor-agnostic control framework for cloud and AI, comparable to its Cloud Controls Matrix.</p>
+
+<h2 id="government-guidelines-for-secure-ai-development" data-short="Secure AI development guidelines">Government guidelines for secure AI development</h2>
+<div class="grid two">
+  <div class="card"><h4>UK NCSC + US CISA: Guidelines for Secure AI System Development (Nov 2023)</h4>
+  <p>Endorsed by agencies from around 18 countries. Four lifecycle areas:</p>
+  <ol>
+    <li><b>Secure design</b>: threat modeling, risk awareness, design trade-offs</li>
+    <li><b>Secure development</b>: supply chain, documentation, asset and technical-debt management</li>
+    <li><b>Secure deployment</b>: infrastructure protection, model protection, incident management, responsible release</li>
+    <li><b>Secure operation &amp; maintenance</b>: monitoring, update management, information sharing</li>
+  </ol></div>
+  <div class="card"><h4>Others</h4><ul>
+    <li><b>NSA AISC et al.: "Deploying AI Systems Securely"</b> (Apr 2024): hardening deployment environments</li>
+    <li><b>Joint "AI Data Security" guidance</b> (May 2025): protecting data across the AI lifecycle</li>
+    <li><b>UK AI Cyber Security Code of Practice</b> (Jan 2025): 13 principles, basis for an ETSI baseline standard (ETSI TS 104 223)</li>
+    <li><b>ENISA</b> Framework for AI Cybersecurity Practices (FAICP)</li>
+    <li><b>US</b>: federal policy shifted in 2025 (EO 14110 revoked; the July 2025 AI Action Plan emphasizes secure-by-design AI and AI-specific threat sharing)</li>
+    <li><b>India</b>: no standalone AI law. The <b>DPDP Act 2023</b> governs personal data (rules notified 2025), CERT-In handles incident reporting, and MeitY issued principle-based <b>AI Governance Guidelines</b> (2025)</li>
+  </ul></div>
+</div>
+
+<h2 id="owasp-genai-security-project-resources" data-short="OWASP GenAI resources">OWASP GenAI Security Project resources</h2>
+<div class="tbl"><table>
+<thead><tr><th>Resource</th><th>What it is</th></tr></thead>
+<tbody>
+<tr><td><b>Top 10 for LLM Applications (2025)</b></td><td>The risk list (<a href="03-owasp-llm-top10.html">module 03</a>)</td></tr>
+<tr><td><b>Top 10 for Agentic Applications (2026)</b></td><td>Agent risk list, ASI01–ASI10 (<a href="04-owasp-agentic-top10.html">module 04</a>)</td></tr>
+<tr><td><b>Agentic AI – Threats and Mitigations</b></td><td>T1–T15 threat taxonomy (Feb 2025)</td></tr>
+<tr><td><b>GenAI Red Teaming Guide</b></td><td>Methodology for red teaming GenAI: model, implementation, system and runtime evaluation (Jan 2025)</td></tr>
+<tr><td><b>LLM AI Cybersecurity &amp; Governance Checklist</b></td><td>Checklist for leaders deploying LLMs</td></tr>
+<tr><td><b>OWASP AI Exchange</b></td><td>Large open body of AI security guidance; contributed to EU AI Act standards and ISO/IEC 27090</td></tr>
+<tr><td><b>OWASP AIVSS</b></td><td>AI Vulnerability Scoring System: CVSS-style base scoring plus amplification factors for agentic properties (autonomy, tool access, memory, multi-agent)</td></tr>
+<tr><td><b>AI Testing Guide / AIBOM</b></td><td>Testing methodology; AI bill of materials work</td></tr>
+</tbody></table></div>
+
+<h2 id="how-to-build-an-ai-security-program" data-short="Building an AI security program">How to build an AI security program</h2>
+<div class="flow">
+  <div class="step acc"><b>Inventory</b><small>All AI use incl. shadow AI, models, agents, MCP servers, vendors (AI-BOM)</small></div>
+  <div class="step acc"><b>Policy</b><small>Acceptable use, data rules, approval process, roles (AI governance board)</small></div>
+  <div class="step acc"><b>Risk tiering</b><small>Intake form → tier by data sensitivity, autonomy, impact, regulation</small></div>
+  <div class="step"><b>Controls</b><small>Reference architectures, guardrails, identity, tool gateways per tier</small></div>
+  <div class="step"><b>Assurance</b><small>Threat models, red teaming, evals, vendor reviews before go-live</small></div>
+  <div class="step"><b>Operate</b><small>Monitoring, AI IR playbooks, metrics, periodic re-assessment</small></div>
+  <div class="step ok"><b>Culture</b><small>AI literacy training (EU AI Act), secure-prompting guidance, champions</small></div>
+</div>
+
+<h3 id="third-party-vendor-ai-risk-questions">Third-party / vendor AI risk questions</h3>
+<ul class="check">
+  <li>Is our data (prompts, files, outputs) used to train or improve models? Can we opt out contractually?</li>
+  <li>Retention periods for prompts, outputs and abuse-monitoring logs; data residency; sub-processors</li>
+  <li>Which models are used (and where they're from)? How are model updates communicated?</li>
+  <li>Tenant isolation for RAG, memory, caches and fine-tunes</li>
+  <li>Security testing: AI red teaming, pentests, bug bounty; can they share results?</li>
+  <li>Guardrails in place (injection, content safety, DLP); configurable by us?</li>
+  <li>Certifications: ISO 27001, ISO 42001, SOC 2; EU AI Act role (provider/deployer)</li>
+  <li>Agent/tool permissions: scopes, OAuth, admin controls, audit logs available to us</li>
+  <li>Incident notification timelines and AI-specific incident handling</li>
+</ul>
+
+<h3 id="ai-incident-response-playbook">AI incident response playbook</h3>
+<div class="tbl"><table>
+<thead><tr><th>Phase</th><th>AI-specific actions</th></tr></thead>
+<tbody>
+<tr><td><b>Prepare</b></td><td>Logging of prompts, context sources, tool calls and model versions; kill switches; owner contacts; tabletop exercises with injection and leakage scenarios</td></tr>
+<tr><td><b>Detect &amp; triage</b></td><td>What class is it: prompt injection, data leakage, poisoning, model misbehavior, abuse, cost attack? Which users, tenants and data are affected?</td></tr>
+<tr><td><b>Contain</b></td><td>Disable affected tools or agents; revoke agent tokens; quarantine poisoned documents and memory; tighten filters; roll back model or prompt version; block attacker accounts</td></tr>
+<tr><td><b>Eradicate</b></td><td>Remove poisoned data from KB, memory, caches and embeddings; patch the vulnerable component; rotate exposed secrets</td></tr>
+<tr><td><b>Recover</b></td><td>Re-enable gradually with monitoring; validate with red-team regression</td></tr>
+<tr><td><b>Notify &amp; learn</b></td><td>Regulatory obligations (GDPR 72h breach notice; EU AI Act serious-incident reporting for high-risk/GPAI systemic risk; local rules such as CERT-In); add the attack to the regression suite; update the threat model</td></tr>
+</tbody></table></div>
+
+<h2 id="which-framework-to-cite-for-which-question" data-short="Which framework when">Which framework to cite for which question</h2>
+<div class="tbl"><table>
+<thead><tr><th>If they ask…</th><th>Cite</th></tr></thead>
+<tbody>
+<tr><td>"What are the main risks of our chatbot?"</td><td>OWASP LLM Top 10 (+ Agentic Top 10 if it uses tools)</td></tr>
+<tr><td>"How would attackers actually attack it?"</td><td>MITRE ATLAS techniques and case studies</td></tr>
+<tr><td>"How do we threat model a multi-agent system?"</td><td>STRIDE + CSA MAESTRO layers + OWASP Agentic</td></tr>
+<tr><td>"How do we set up AI risk management?"</td><td>NIST AI RMF (Govern/Map/Measure/Manage) + AI 600-1</td></tr>
+<tr><td>"Can we get certified?"</td><td>ISO/IEC 42001 (with 27001)</td></tr>
+<tr><td>"What's legally required in Europe?"</td><td>EU AI Act risk tiers, GPAI duties, Art. 15</td></tr>
+<tr><td>"What terminology should we use for attacks?"</td><td>NIST AI 100-2 E2025</td></tr>
+<tr><td>"How do we score an agentic vuln?"</td><td>OWASP AIVSS; Microsoft AI bug bar; CVSS for classic parts</td></tr>
+<tr><td>"What does a secure-by-design AI SDLC look like?"</td><td>NCSC/CISA guidelines, NIST SSDF 800-218A, Google SAIF</td></tr>
+</tbody></table></div>
+
+</main>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

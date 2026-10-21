@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Security Field Guide</title>
+<meta name="description" content="Interview prep guide for AI security: OWASP Top 10s, LLM, agentic, RAG, guardrails, harness engineering, evaluation, MITRE ATLAS, PyRIT, Microsoft AI security, governance and Q&amp;A.">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem('aisec-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body>
+<nav id="sidebar" aria-label="Guide navigation"></nav>
+<main id="main">
+
+<header class="page-head">
+  <div class="eyebrow">Start here</div>
+  <h1>AI security interview field guide</h1>
+  <p class="lede">Fifteen modules in six parts: foundations, the risk frameworks, how to secure RAG, agents, guardrails and harnesses, how to test and evaluate them, the platforms and governance around them, and a question bank to practise with.</p>
+  <div class="meta">
+    <span class="pill">15 modules · 6 parts</span>
+    <span class="pill">200+ interview Q&amp;A</span>
+    <span class="pill">Worked attack vs defense examples</span>
+    <span class="pill">Search with <kbd>/</kbd></span>
+    <span class="pill">Works offline · light &amp; dark</span>
+  </div>
+</header>
+
+<div class="tldr"><div class="tldr-h">How to use this guide</div><ul>
+  <li>Follow the parts in order tonight. Each module opens with <b>Key takeaways</b>, and the right-hand panel (or "On this page" on smaller screens) shows its sections.</li>
+  <li>Then drill the <a href="14-interview-questions.html">Q&amp;A bank</a>: answer out loud before opening each model answer.</li>
+  <li>Tomorrow morning, read only the <a href="15-cheatsheet.html">cheat sheet</a>.</li>
+  <li>Press <kbd>/</kbd> or <kbd>Ctrl</kbd>+<kbd>K</kbd> anywhere to search every page and question. Checkmarks and "confident" marks are saved in this browser.</li>
+</ul></div>
+
+<h2 id="the-course-map">The course map</h2>
+
+<div class="part"><b>Part A · Foundations</b><span>The mental models everything else builds on</span></div>
+<div class="grid">
+  <a class="card" href="01-foundations.html"><span class="k">01 · 30 min</span><h3 id="ai-security-foundations">AI security foundations</h3><p>How LLM apps work, why prompt injection exists, reference architecture, attack catalog, threat modeling, defense in depth.</p></a>
+</div>
+
+<div class="part"><b>Part B · Risk frameworks</b><span>What can go wrong, and how attackers do it</span></div>
+<div class="grid">
+  <a class="card" href="02-owasp-web-api.html"><span class="k">02 · 20 min</span><h3 id="owasp-top-10-web-api">OWASP Top 10 (Web &amp; API)</h3><p>2021 vs 2025, API Top 10, and how classic bugs return through AI.</p></a>
+  <a class="card" href="03-owasp-llm-top10.html"><span class="k">03 · 60 min ★</span><h3 id="owasp-llm-top-10-2025">OWASP LLM Top 10 (2025)</h3><p>All ten risks with incidents, mitigations and attack vs defense examples.</p></a>
+  <a class="card" href="04-owasp-agentic-top10.html"><span class="k">04 · 35 min ★</span><h3 id="owasp-agentic-top-10">OWASP Agentic Top 10</h3><p>ASI01–ASI10 with examples and controls, plus the T1–T15 threats.</p></a>
+  <a class="card" href="05-mitre-atlas.html"><span class="k">05 · 30 min</span><h3 id="mitre-atlas">MITRE ATLAS</h3><p>16 tactics, key technique IDs, mitigations, real attack chains.</p></a>
+</div>
+
+<div class="part"><b>Part C · Securing AI systems</b><span>Architectures and controls</span></div>
+<div class="grid">
+  <a class="card" href="06-rag-security.html"><span class="k">06 · 30 min ★</span><h3 id="securing-rag">Securing RAG</h3><p>Permission-aware retrieval, poisoning, embeddings, secure architecture.</p></a>
+  <a class="card" href="07-agents-multiagent-mcp.html"><span class="k">07 · 45 min ★</span><h3 id="agents-multi-agent-mcp">Agents, multi-agent &amp; MCP</h3><p>Lethal trifecta, Rule of Two, secure agent architecture, MCP/A2A attacks.</p></a>
+  <a class="card" href="08-guardrails-middleware.html"><span class="k">08 · 40 min ★</span><h3 id="guardrails-middleware">Guardrails &amp; middleware</h3><p>Rail types, pipeline design, code in 6 frameworks, OPA tool policy, tuning metrics.</p><span class="badge-new">NEW</span></a>
+  <a class="card" href="09-harness-engineering.html"><span class="k">09 · 35 min</span><h3 id="agent-harness-engineering">Agent harness engineering</h3><p>Loop, context, tools, permissions, hooks, sandbox. A secure agent loop in code.</p><span class="badge-new">NEW</span></a>
+</div>
+
+<div class="part"><b>Part D · Testing &amp; evaluation</b><span>Proving the controls work</span></div>
+<div class="grid">
+  <a class="card" href="10-red-teaming-pyrit.html"><span class="k">10 · 30 min</span><h3 id="red-teaming-pyrit">Red teaming &amp; PyRIT</h3><p>Methodology, PyRIT architecture and code, attack strategies, tools.</p></a>
+  <a class="card" href="11-evaluation-metrics.html"><span class="k">11 · 45 min ★</span><h3 id="eval-harnesses-metrics">Eval harnesses &amp; metrics</h3><p>Every eval parameter and metric with formulas, statistics, LLM judges, CI gates.</p><span class="badge-new">NEW</span></a>
+</div>
+
+<div class="part"><b>Part E · Platforms &amp; governance</b><span>Vendor stack and risk programs</span></div>
+<div class="grid">
+  <a class="card" href="12-microsoft-ai-security.html"><span class="k">12 · 25 min</span><h3 id="microsoft-ai-security">Microsoft AI security</h3><p>Prompt Shields, Spotlighting, Foundry, Defender, Purview, Entra Agent ID.</p></a>
+  <a class="card" href="13-governance-frameworks.html"><span class="k">13 · 30 min</span><h3 id="governance-frameworks">Governance &amp; frameworks</h3><p>NIST AI RMF, ISO 42001, EU AI Act, SAIF, MAESTRO, incident response.</p></a>
+</div>
+
+<div class="part"><b>Part F · Practice</b><span>Make it stick</span></div>
+<div class="grid">
+  <a class="card" href="14-interview-questions.html"><span class="k">14 · 60 min ★</span><h3 id="interview-q-a-bank">Interview Q&amp;A bank</h3><p>200+ questions with model answers, filters and a random drill.</p></a>
+  <a class="card" href="15-cheatsheet.html"><span class="k">15 · 20 min</span><h3 id="night-before-cheat-sheet">Night-before cheat sheet</h3><p>Every list, formula and 30-second answer on one printable page.</p></a>
+</div>
+
+<h2 id="tonight-s-study-plan-about-6-hours" data-short="Study plan">Tonight's study plan (about 6 hours)</h2>
+<div class="timeline">
+  <div class="ti"><b>0:00–0:25</b><span><a href="01-foundations.html">01 Foundations</a>: architecture, why injection exists, attack classes.</span></div>
+  <div class="ti"><b>0:25–1:20</b><span><a href="03-owasp-llm-top10.html">03 LLM Top 10</a>. <strong>Know it cold</strong>, including one worked example per risk.</span></div>
+  <div class="ti"><b>1:20–2:00</b><span><a href="04-owasp-agentic-top10.html">04 Agentic Top 10</a> + <a href="07-agents-multiagent-mcp.html">07 Agents &amp; MCP</a>.</span></div>
+  <div class="ti"><b>2:00–2:40</b><span><a href="08-guardrails-middleware.html">08 Guardrails &amp; middleware</a>: rail types, pipeline, fail-closed, metrics.</span></div>
+  <div class="ti"><b>2:40–3:10</b><span><a href="09-harness-engineering.html">09 Harness engineering</a>: secure loop, permissions, hooks, sandbox.</span></div>
+  <div class="ti"><b>3:10–3:50</b><span><a href="11-evaluation-metrics.html">11 Eval harnesses &amp; metrics</a>: parameters, metrics, CIs, LLM judges.</span></div>
+  <div class="ti"><b>3:50–4:15</b><span><a href="06-rag-security.html">06 RAG</a>: permission-aware retrieval and the secure architecture.</span></div>
+  <div class="ti"><b>4:15–4:45</b><span><a href="05-mitre-atlas.html">05 ATLAS</a> + <a href="10-red-teaming-pyrit.html">10 PyRIT</a>, skimming tables.</span></div>
+  <div class="ti"><b>4:45–5:05</b><span><a href="12-microsoft-ai-security.html">12 Microsoft</a> + <a href="13-governance-frameworks.html">13 Governance</a>: key-takeaway boxes only.</span></div>
+  <div class="ti"><b>5:05–6:00</b><span><a href="14-interview-questions.html">14 Q&amp;A drill</a>: Random question, answered out loud.</span></div>
+  <div class="ti"><b>Morning</b><span><a href="15-cheatsheet.html">15 Cheat sheet</a> (20 min). Sleep beats one more hour of reading.</span></div>
+</div>
+<div class="callout warn"><span class="ct">Only 90 minutes?</span>LLM Top 10 → the secure-agent architecture (07) → the guardrail pipeline (08) → the metrics catalog (11) → the cheat sheet.</div>
+
+<h2 id="the-ai-security-landscape-on-one-page" data-short="Landscape">The AI security landscape on one page</h2>
+<div class="landscape">
+  <div class="row"><div class="lbl">Governance &amp; risk<small>Who is accountable</small></div>
+    <div class="items"><span class="tag v">NIST AI RMF</span><span class="tag v">NIST AI 600-1</span><span class="tag v">ISO/IEC 42001</span><span class="tag v">EU AI Act</span><span class="tag v">Microsoft RAI Standard</span><span class="tag v">Google SAIF</span></div></div>
+  <div class="row"><div class="lbl">Adversary behavior<small>How attackers operate</small></div>
+    <div class="items"><span class="tag r">MITRE ATLAS</span><span class="tag r">NIST AI 100-2</span><span class="tag r">MITRE ATT&amp;CK</span></div></div>
+  <div class="row"><div class="lbl">Risk lists<small>What can go wrong</small></div>
+    <div class="items"><span class="tag a">OWASP LLM Top 10</span><span class="tag a">OWASP Agentic Top 10</span><span class="tag a">OWASP Top 10 / API Top 10</span><span class="tag a">CSA MAESTRO</span></div></div>
+  <div class="row"><div class="lbl">Runtime controls<small>What stops it</small></div>
+    <div class="items"><span class="tag g">Guardrails (input / context / output / action)</span><span class="tag g">Tool gateway + OPA/Cedar</span><span class="tag g">Agent harness: permissions, hooks, sandbox</span><span class="tag g">Prompt Shields · Llama Guard · NeMo Guardrails</span></div></div>
+  <div class="row"><div class="lbl">Testing &amp; evaluation<small>Proving it works</small></div>
+    <div class="items"><span class="tag b">PyRIT</span><span class="tag b">garak</span><span class="tag b">promptfoo</span><span class="tag b">Inspect</span><span class="tag b">lm-eval-harness</span><span class="tag b">RAGAS</span><span class="tag b">AgentDojo</span></div></div>
+  <div class="row"><div class="lbl">Model &amp; data<small>Training-time risks</small></div>
+    <div class="items"><span class="tag y">Poisoning &amp; backdoors</span><span class="tag y">Evasion</span><span class="tag y">Extraction / inversion</span><span class="tag y">Model signing &amp; AI-BOM</span></div></div>
+</div>
+
+<h2 id="how-the-frameworks-fit-together" data-short="Framework fit">How the frameworks fit together</h2>
+<div class="tbl"><table>
+<thead><tr><th>Framework</th><th>Type</th><th>One-liner for the interview</th></tr></thead>
+<tbody>
+<tr><td>OWASP LLM Top 10</td><td>Risk list</td><td>"The ten critical LLM app risks. 2025 added System Prompt Leakage and Vector &amp; Embedding Weaknesses."</td></tr>
+<tr><td>OWASP Agentic Top 10</td><td>Risk list (Dec 2025)</td><td>"ASI01 Goal Hijack to ASI10 Rogue Agents: what agents can be made to <em>do</em>."</td></tr>
+<tr><td>MITRE ATLAS</td><td>Adversary TTPs</td><td>"Tactics are the why, techniques the how, backed by real case studies."</td></tr>
+<tr><td>Guardrails</td><td>Runtime controls</td><td>"Five rail positions, with deterministic rails for guarantees and classifiers for risk reduction."</td></tr>
+<tr><td>Agent harness</td><td>Engineering discipline</td><td>"Agent = model + harness. The enforceable controls live in the harness."</td></tr>
+<tr><td>Eval harness</td><td>Measurement</td><td>"Dataset → runner → scorers → gate. Report ASR with utility, over N trials, with CIs."</td></tr>
+<tr><td>NIST AI RMF / ISO 42001</td><td>Governance</td><td>"Govern, Map, Measure, Manage. 42001 is the certifiable management system."</td></tr>
+<tr><td>EU AI Act</td><td>Law</td><td>"Four risk tiers plus GPAI duties. Art. 15 requires AI-specific cybersecurity."</td></tr>
+<tr><td>PyRIT</td><td>Red-team tool</td><td>"Microsoft's framework for automating attacks, so humans can focus on creative work."</td></tr>
+</tbody></table></div>
+
+<h2 id="10-principles-to-weave-into-every-answer" data-short="10 principles">10 principles to weave into every answer</h2>
+<div class="tbl"><table>
+<thead><tr><th>#</th><th>Principle</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><b>The LLM is not a security boundary</b></td><td>Enforce authorization and business rules in deterministic code. The model proposes and code decides.</td></tr>
+<tr><td>2</td><td><b>Everything in context is untrusted</b></td><td>Docs, web, email, tool results, memory and other agents can all carry instructions.</td></tr>
+<tr><td>3</td><td><b>Design for containment</b></td><td>Prompt injection has no complete fix, so limit what a hijacked model can reach.</td></tr>
+<tr><td>4</td><td><b>Least privilege, least agency</b></td><td>Minimal tools, scopes and autonomy; user-scoped, short-lived tokens.</td></tr>
+<tr><td>5</td><td><b>Risk-tiered human approval</b></td><td>Irreversible or external actions need approval that shows the exact action. Watch for fatigue.</td></tr>
+<tr><td>6</td><td><b>Output is untrusted input</b></td><td>Encode, validate and parameterize. Never <code>eval</code>.</td></tr>
+<tr><td>7</td><td><b>Break the lethal trifecta</b></td><td>Never combine private data, untrusted content and external communication without a human.</td></tr>
+<tr><td>8</td><td><b>Layered guardrails, fail closed</b></td><td>Input, context, output and action rails, logged and tuned on real traffic.</td></tr>
+<tr><td>9</td><td><b>Models and tools are supply chain</b></td><td>Provenance, signing, pinning, scanning, AI-BOM, MCP registries.</td></tr>
+<tr><td>10</td><td><b>Measure continuously</b></td><td>Evals in CI with ASR, utility and over-refusal; red teaming; production monitoring.</td></tr>
+</tbody></table></div>
+
+<h2 id="the-catch-framework-for-scenario-questions" data-short="CATCH framework">The CATCH framework for scenario questions</h2>
+<div class="flow lettered">
+  <div class="step acc"><b>C · Clarify</b><small>What does it do? Users, data, autonomy, actions.</small></div>
+  <div class="step acc"><b>A · Architecture</b><small>Draw components, data flows and trust boundaries.</small></div>
+  <div class="step acc"><b>T · Threats</b><small>OWASP LLM/Agentic + STRIDE per boundary; ATLAS.</small></div>
+  <div class="step acc"><b>C · Controls</b><small>Deterministic first, then guardrails; prevent → detect → respond.</small></div>
+  <div class="step acc"><b>H · How we verify</b><small>Eval harness + red team, metrics, monitoring, owner.</small></div>
+</div>
+<div class="callout say"><span class="ct">Sample opener</span>"Before talking about controls, I'd like to understand what this assistant can actually <em>do</em>, because the risk comes from its tools and data access. Then I'll draw the data flow, mark where untrusted content enters, go through the OWASP LLM and Agentic risks at each boundary, propose layered controls, and say how I'd measure that they work."</div>
+
+<h2 id="glossary">Glossary</h2>
+<div class="tbl"><table>
+<thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>Prompt injection (direct / indirect)</td><td>Input that overrides intended behavior. Indirect comes from processed content; Microsoft calls it <b>XPIA</b>.</td></tr>
+<tr><td>Jailbreak</td><td>Bypassing the model's safety training (a form of prompt injection).</td></tr>
+<tr><td>Guardrail</td><td>A runtime control on inputs, context, outputs or actions, either deterministic or classifier-based.</td></tr>
+<tr><td>Middleware</td><td>Code wrapping a model or tool call that can inspect, modify, block or log it.</td></tr>
+<tr><td>Agent harness</td><td>The runtime around a model: loop, context, tools, permissions, hooks, sandbox, telemetry.</td></tr>
+<tr><td>Eval harness</td><td>The framework that runs datasets against a system, scores outputs and aggregates metrics.</td></tr>
+<tr><td>ASR</td><td>Attack success rate: successful attacks divided by attempts.</td></tr>
+<tr><td>Over-refusal</td><td>Wrongly refusing benign requests. It's the usability cost of safety.</td></tr>
+<tr><td>pass@k / pass^k</td><td>At least one success in k tries / all k tries succeed (reliability).</td></tr>
+<tr><td>MCP / A2A</td><td>Protocols for agent ↔ tool and agent ↔ agent connections.</td></tr>
+<tr><td>Spotlighting</td><td>Marking untrusted text (delimiters, datamarking, encoding) so the model treats it as data.</td></tr>
+<tr><td>AI-BOM</td><td>Bill of materials for models, datasets, adapters, tools and prompts.</td></tr>
+</tbody></table></div>
+
+</main>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

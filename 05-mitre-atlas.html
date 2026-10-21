@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MITRE ATLAS</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem('aisec-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body>
+<nav id="sidebar" aria-label="Guide navigation"></nav>
+<main id="main">
+
+<header class="page-head">
+  <div class="eyebrow">Module 05 · Adversary TTPs</div>
+  <h1>MITRE ATLAS</h1>
+  <p class="lede"><b>A</b>dversarial <b>T</b>hreat <b>L</b>andscape for <b>A</b>rtificial-Intelligence <b>S</b>ystems: a knowledge base of real adversary tactics, techniques and case studies against AI, modeled on MITRE ATT&amp;CK. OWASP tells you <em>which risks</em> exist. ATLAS tells you <em>how attackers actually carry them out</em>.</p>
+  <div class="meta"><span class="pill">⏱ 30 min</span><span class="pill">Priority ★★★</span><span class="pill">Verified against ATLAS data v5.6.0</span></div>
+</header>
+
+<div class="tldr"><div class="tldr-h">Key takeaways</div><ul>
+  <li>16 tactics, two of them AI-specific: <b>AI Model Access</b> and <b>AI Attack Staging</b>.</li>
+  <li>Know about 15 technique IDs, e.g. T0051 prompt injection, T0054 jailbreak, T0070 RAG poisoning, T0053 agent tool invocation.</li>
+  <li>Case studies prove realism: Slack AI, M365 Copilot, ShadowRay, PoisonGPT, postmark-mcp.</li>
+  <li>Use it for threat modeling, red-team planning, detection mapping and coverage heatmaps.</li>
+</ul></div>
+
+
+<h2 id="what-atlas-is">What ATLAS is</h2>
+<div class="grid two">
+  <div class="card"><h4>Origin and scope</h4><ul>
+    <li>Grew out of the <b>Adversarial ML Threat Matrix</b> (Oct 2020), a collaboration led by <b>MITRE and Microsoft</b> with a dozen other organizations. It became ATLAS in 2021.</li>
+    <li>Covers predictive ML (evasion, poisoning, extraction) <em>and</em> GenAI/LLMs and, since 2025, a fast-growing set of <b>AI agent</b> techniques (tool invocation, context poisoning, MCP/tool supply chain).</li>
+    <li>Grounded in <b>case studies</b>: real incidents and red-team exercises, each mapped step by step to techniques.</li>
+  </ul></div>
+  <div class="card"><h4>By the numbers (data v5.6.0)</h4><ul>
+    <li><b>16 tactics</b> (AML.TAxxxx)</li>
+    <li><b>~100 techniques + ~70 sub-techniques</b> (AML.Txxxx[.yyy])</li>
+    <li><b>35 mitigations</b> (AML.Mxxxx)</li>
+    <li><b>57 case studies</b> (AML.CSxxxx)</li>
+    <li class="small muted">Counts grow with every release, and names moved from "ML" to "AI" in 2025 (e.g. "ML Model Access" became "AI Model Access"). Say "around" in interviews.</li>
+  </ul></div>
+</div>
+<div class="grid three">
+  <div class="card"><h4>Tactic</h4><p>The adversary's <b>goal</b> at a step: the <em>why</em>. Example: <i>Exfiltration</i>.</p></div>
+  <div class="card"><h4>Technique / sub-technique</h4><p><b>How</b> the goal is achieved. Example: <i>AML.T0024.002 Extract AI Model</i>.</p></div>
+  <div class="card"><h4>Mitigation &amp; case study</h4><p>Defenses mapped to techniques (e.g. <i>AML.M0004 Restrict Number of AI Model Queries</i>) and real-world procedures.</p></div>
+</div>
+<p class="small muted">Companion tools: the <b>ATLAS Navigator</b> (matrix visualization and layer annotation, like ATT&amp;CK Navigator), <b>Arsenal</b> (a CALDERA plugin for automated adversary emulation against AI), and MITRE's <b>AI Incident Sharing</b> initiative for anonymized incident data.</p>
+
+<h2 id="the-16-tactics-matrix-order" data-short="The 16 tactics">The 16 tactics (matrix order)</h2>
+<div class="flow tight">
+  <div class="step"><b>Reconnaissance</b><small>TA0002</small></div>
+  <div class="step"><b>Resource Development</b><small>TA0003</small></div>
+  <div class="step"><b>Initial Access</b><small>TA0004</small></div>
+  <div class="step acc"><b>AI Model Access</b><small>TA0000 · AI-specific</small></div>
+  <div class="step"><b>Execution</b><small>TA0005</small></div>
+  <div class="step"><b>Persistence</b><small>TA0006</small></div>
+  <div class="step"><b>Privilege Escalation</b><small>TA0012</small></div>
+  <div class="step"><b>Defense Evasion</b><small>TA0007</small></div>
+  <div class="step"><b>Credential Access</b><small>TA0013</small></div>
+  <div class="step"><b>Discovery</b><small>TA0008</small></div>
+  <div class="step"><b>Lateral Movement</b><small>TA0015</small></div>
+  <div class="step"><b>Collection</b><small>TA0009</small></div>
+  <div class="step acc"><b>AI Attack Staging</b><small>TA0001 · AI-specific</small></div>
+  <div class="step"><b>Command and Control</b><small>TA0014</small></div>
+  <div class="step"><b>Exfiltration</b><small>TA0010</small></div>
+  <div class="step"><b>Impact</b><small>TA0011</small></div>
+</div>
+<div class="callout say"><span class="ct">Say this</span>"ATLAS reuses most of ATT&amp;CK's tactics and adds two AI-specific ones. <b>AI Model Access</b> is how the adversary gets to the model: an inference API, an AI-enabled product, physical access, or full white-box access. <b>AI Attack Staging</b> is where they prepare the AI-specific attack: building proxy models, crafting adversarial data, inserting backdoor triggers, and verifying the attack works before using it."</div>
+
+<div class="tbl"><table>
+<thead><tr><th>Tactic</th><th>The adversary is trying to…</th><th>Representative techniques</th></tr></thead>
+<tbody>
+<tr><td><b>Reconnaissance</b></td><td>gather information about the AI system to plan the attack</td><td>Search open technical databases (papers, blogs); search victim-owned websites; active scanning; <b>Gather RAG-Indexed Targets (T0064)</b></td></tr>
+<tr><td><b>Resource Development</b></td><td>build or acquire resources for the attack</td><td>Acquire public AI artifacts; develop adversarial capabilities; <b>publish poisoned datasets/models</b>; <b>LLM Prompt Crafting (T0065)</b>; <b>Retrieval Content Crafting (T0066)</b>; publish hallucinated entities; publish poisoned agent tools</td></tr>
+<tr><td><b>Initial Access</b></td><td>get into the AI system</td><td><b>AI Supply Chain Compromise (T0010)</b>; valid accounts; exploit public-facing application; phishing; <b>Prompt Infiltration via Public-Facing Application (T0093)</b>; drive-by compromise</td></tr>
+<tr><td><b>AI Model Access</b></td><td>gain some level of access to the model</td><td><b>AI Model Inference API Access (T0040)</b>; AI-Enabled Product or Service (T0047); physical environment access; full AI model access</td></tr>
+<tr><td><b>Execution</b></td><td>run malicious code or instructions</td><td><b>LLM Prompt Injection (T0051: .000 Direct, .001 Indirect, .002 Triggered)</b>; <b>AI Agent Tool Invocation (T0053)</b>; user execution of unsafe artifacts; command and scripting interpreter</td></tr>
+<tr><td><b>Persistence</b></td><td>keep their foothold</td><td>Poison training data; manipulate AI model; <b>RAG Poisoning (T0070)</b>; <b>AI Agent Context Poisoning (T0080: memory, thread)</b>; LLM prompt self-replication; modify agent configuration; agent tool poisoning</td></tr>
+<tr><td><b>Privilege Escalation</b></td><td>gain higher permissions</td><td><b>LLM Jailbreak (T0054)</b>; AI agent tool invocation; valid accounts; escape to host</td></tr>
+<tr><td><b>Defense Evasion</b></td><td>avoid detection, including by AI-based defenses</td><td>Evade AI model; <b>LLM Prompt Obfuscation (T0068)</b>; false RAG entry injection; manipulate trusted output components (citations); delay execution of LLM instructions; impersonation; supply-chain rug pull</td></tr>
+<tr><td><b>Credential Access</b></td><td>steal credentials</td><td>Unsecured credentials; <b>RAG Credential Harvesting (T0082)</b>; credentials from AI agent configuration; agent tool credential harvesting</td></tr>
+<tr><td><b>Discovery</b></td><td>learn about the AI environment</td><td>Discover AI model family/ontology/artifacts; <b>Discover LLM System Information (T0069, incl. system prompt)</b>; discover LLM hallucinations; discover AI agent configuration (tool definitions, triggers)</td></tr>
+<tr><td><b>Lateral Movement</b></td><td>move to other systems and components</td><td>Phishing (e.g. with LLM-generated spearphishing); use alternate authentication material (application access tokens)</td></tr>
+<tr><td><b>Collection</b></td><td>gather AI artifacts and data</td><td>AI artifact collection; data from information repositories; <b>Data from AI Services (T0085: RAG databases, agent tools)</b></td></tr>
+<tr><td><b>AI Attack Staging</b></td><td>tailor and prepare the attack on the model</td><td><b>Create Proxy AI Model (T0005)</b>; <b>Craft Adversarial Data (T0043: white-box, black-box, transfer, manual, backdoor trigger)</b>; manipulate AI model; <b>Verify Attack (T0042)</b>; generate deepfakes</td></tr>
+<tr><td><b>Command and Control</b></td><td>communicate with compromised AI systems</td><td>Reverse shell; <b>AI Service API (T0096)</b> as a covert C2 channel; AI agent as C2</td></tr>
+<tr><td><b>Exfiltration</b></td><td>steal data, models or info</td><td><b>Exfiltration via AI Inference API (T0024: membership inference, model inversion, model extraction)</b>; <b>Extract LLM System Prompt (T0056)</b>; <b>LLM Data Leakage (T0057)</b>; <b>LLM Response Rendering (T0077)</b>; exfiltration via agent tool invocation (T0086)</td></tr>
+<tr><td><b>Impact</b></td><td>disrupt, degrade or destroy</td><td>Evade AI model; <b>Denial of AI Service (T0029)</b>; <b>Cost Harvesting (T0034)</b>; erode model/dataset integrity; spamming with chaff data; <b>External Harms (T0048: financial, reputational, societal, user, IP theft)</b>; data destruction via agent tools</td></tr>
+</tbody></table></div>
+
+<h2 id="must-know-technique-ids" data-short="Must-know techniques">Must-know technique IDs</h2>
+<p>You don't need to memorize the matrix. Knowing about 15 IDs with confidence is impressive in an interview.</p>
+<div class="tbl"><table>
+<thead><tr><th>ID</th><th>Technique</th><th>Tactic(s)</th><th>OWASP link</th></tr></thead>
+<tbody>
+<tr><td><code>AML.T0051</code></td><td><b>LLM Prompt Injection</b> (.000 Direct · .001 Indirect · .002 Triggered)</td><td>Execution</td><td>LLM01 · ASI01</td></tr>
+<tr><td><code>AML.T0054</code></td><td><b>LLM Jailbreak</b></td><td>Privilege Escalation, Defense Evasion</td><td>LLM01</td></tr>
+<tr><td><code>AML.T0056</code></td><td><b>Extract LLM System Prompt</b></td><td>Exfiltration</td><td>LLM07</td></tr>
+<tr><td><code>AML.T0057</code></td><td><b>LLM Data Leakage</b></td><td>Exfiltration</td><td>LLM02</td></tr>
+<tr><td><code>AML.T0053</code></td><td><b>AI Agent Tool Invocation</b></td><td>Execution, Privilege Escalation</td><td>LLM06 · ASI02</td></tr>
+<tr><td><code>AML.T0070</code></td><td><b>RAG Poisoning</b></td><td>Persistence</td><td>LLM08 · ASI06</td></tr>
+<tr><td><code>AML.T0080</code></td><td><b>AI Agent Context Poisoning</b> (.000 Memory · .001 Thread)</td><td>Persistence</td><td>ASI06</td></tr>
+<tr><td><code>AML.T0020</code></td><td><b>Poison Training Data</b></td><td>Resource Development, Persistence</td><td>LLM04</td></tr>
+<tr><td><code>AML.T0018</code></td><td><b>Manipulate AI Model</b> (.000 Poison · .001 Modify Architecture · .002 Embed Malware)</td><td>Persistence, AI Attack Staging</td><td>LLM04 · LLM03</td></tr>
+<tr><td><code>AML.T0010</code></td><td><b>AI Supply Chain Compromise</b> (.000 Hardware · .001 AI Software · .002 Data · .003 Model · .004 Container Registry · .005 AI Agent Tool)</td><td>Initial Access</td><td>LLM03 · ASI04</td></tr>
+<tr><td><code>AML.T0043</code></td><td><b>Craft Adversarial Data</b> (white-box · black-box · transfer · manual · backdoor trigger)</td><td>AI Attack Staging</td><td>Evasion (PredAI)</td></tr>
+<tr><td><code>AML.T0015</code></td><td><b>Evade AI Model</b></td><td>Initial Access, Defense Evasion, Impact</td><td>Evasion</td></tr>
+<tr><td><code>AML.T0024</code></td><td><b>Exfiltration via AI Inference API</b> (.000 membership inference · .001 model inversion · .002 model extraction)</td><td>Exfiltration</td><td>LLM02 · LLM10</td></tr>
+<tr><td><code>AML.T0040</code></td><td><b>AI Model Inference API Access</b></td><td>AI Model Access</td><td>—</td></tr>
+<tr><td><code>AML.T0029</code> / <code>T0034</code></td><td><b>Denial of AI Service</b> / <b>Cost Harvesting</b></td><td>Impact</td><td>LLM10</td></tr>
+<tr><td><code>AML.T0077</code></td><td><b>LLM Response Rendering</b> (exfil via rendered links/images)</td><td>Exfiltration</td><td>LLM05</td></tr>
+<tr><td><code>AML.T0086</code></td><td><b>Exfiltration via AI Agent Tool Invocation</b></td><td>Exfiltration</td><td>ASI02</td></tr>
+<tr><td><code>AML.T0060</code></td><td><b>Publish Hallucinated Entities</b> (slopsquatting)</td><td>Resource Development</td><td>LLM09</td></tr>
+<tr><td><code>AML.T0109</code></td><td><b>AI Supply Chain Rug Pull</b></td><td>Defense Evasion</td><td>ASI04</td></tr>
+</tbody></table></div>
+
+<h2 id="atlas-mitigations-selected" data-short="Mitigations">ATLAS mitigations (selected)</h2>
+<div class="tbl"><table>
+<thead><tr><th>ID</th><th>Mitigation</th><th>What it means</th></tr></thead>
+<tbody>
+<tr><td><code>AML.M0000</code> / <code>M0001</code></td><td>Limit public release of information / model artifacts</td><td>Reduce recon and white-box attack opportunities</td></tr>
+<tr><td><code>AML.M0002</code></td><td>Passive AI output obfuscation</td><td>Lower output fidelity (no logprobs, rounded confidences) to hinder extraction and inversion</td></tr>
+<tr><td><code>AML.M0003</code></td><td>Model hardening</td><td>Adversarial training, distillation for robustness</td></tr>
+<tr><td><code>AML.M0004</code></td><td>Restrict number of AI model queries</td><td>Rate limits and quotas against extraction, DoS, cost harvesting</td></tr>
+<tr><td><code>AML.M0005</code> / <code>M0019</code></td><td>Control access to models and data (at rest / in production)</td><td>Registry ACLs, authenticated endpoints, monitoring</td></tr>
+<tr><td><code>AML.M0007</code></td><td>Sanitize training data</td><td>Detect and remove poisoned data</td></tr>
+<tr><td><code>AML.M0008</code></td><td>Validate AI model</td><td>Test for backdoors, leakage, adversarial influence</td></tr>
+<tr><td><code>AML.M0013</code> / <code>M0014</code></td><td>Code signing / Verify AI artifacts</td><td>Signatures and checksums for models and code</td></tr>
+<tr><td><code>AML.M0015</code></td><td>Adversarial input detection</td><td>Detect atypical or attack queries</td></tr>
+<tr><td><code>AML.M0016</code></td><td>Vulnerability scanning</td><td>Including scanning pickle and other model files</td></tr>
+<tr><td><code>AML.M0020</code> / <code>M0021</code> / <code>M0022</code></td><td>GenAI guardrails / guidelines / model alignment</td><td>Output filters, input-side guidance, safety training</td></tr>
+<tr><td><code>AML.M0023</code></td><td>AI Bill of Materials</td><td>Inventory of all AI artifacts and their provenance</td></tr>
+<tr><td><code>AML.M0024</code></td><td>AI telemetry logging</td><td>Log inputs, outputs and intermediate agent steps</td></tr>
+<tr><td><code>AML.M0025</code></td><td>Maintain AI dataset provenance</td><td>Dataset history and sources</td></tr>
+<tr><td><code>AML.M0026</code>–<code>M0028</code></td><td>Agent permissions configuration (privileged, single-user, shared tools)</td><td>Least privilege for agents and their tools</td></tr>
+<tr><td><code>AML.M0029</code></td><td>Human in-the-loop for AI agent actions</td><td>Approval before actions</td></tr>
+<tr><td><code>AML.M0030</code></td><td>Restrict AI agent tool invocation on untrusted data</td><td>Don't let untrusted content trigger tools (Rule of Two in ATLAS form)</td></tr>
+<tr><td><code>AML.M0031</code></td><td>Memory hardening</td><td>Trust boundaries for agent memory</td></tr>
+<tr><td><code>AML.M0032</code> / <code>M0033</code></td><td>Segmentation of agent components / input-output validation for agent components</td><td>Sandboxes, isolation, schema validation on tools</td></tr>
+</tbody></table></div>
+
+<h2 id="worked-examples-real-case-studies-mapped-to-tactics" data-short="Worked examples">Worked examples: real case studies mapped to tactics</h2>
+
+<h3 id="1-slack-ai-data-exfiltration-aml-cs0035-aug-2024">1 · Slack AI data exfiltration (AML.CS0035, Aug 2024)</h3>
+<div class="flow">
+  <div class="step"><b>Resource Dev</b><small>T0066 Retrieval Content Crafting + T0065 Prompt Crafting</small></div>
+  <div class="step"><b>Initial Access</b><small>T0012 Valid Accounts (ordinary workspace user)</small></div>
+  <div class="step"><b>AI Model Access</b><small>T0047 AI-enabled product (Slack AI)</small></div>
+  <div class="step hot"><b>Persistence</b><small>T0070 RAG Poisoning (message in public channel)</small></div>
+  <div class="step hot"><b>Execution</b><small>T0051.001 Indirect prompt injection on victim's query</small></div>
+  <div class="step"><b>Credential Access</b><small>T0082 RAG Credential Harvesting (API key in private channel)</small></div>
+  <div class="step hot"><b>Exfiltration</b><small>T0077 LLM Response Rendering (key in a clickable link)</small></div>
+</div>
+<p class="small"><b>Breaks the chain:</b> M0030 (don't let untrusted content steer actions), output link restrictions, separating public and private channel contexts, M0024 telemetry.</p>
+
+<h3 id="2-financial-transaction-hijacking-with-m365-copilot-aml-cs0026-2">2 · Financial transaction hijacking with M365 Copilot (AML.CS0026, 2024)</h3>
+<div class="flow">
+  <div class="step"><b>Recon</b><small>T0064 Gather RAG-indexed targets (Copilot indexes inbox email)</small></div>
+  <div class="step"><b>Discovery</b><small>T0069 Discover system info (delimiters, instruction keywords)</small></div>
+  <div class="step"><b>Resource Dev</b><small>T0066 + T0065 crafted retrievable email</small></div>
+  <div class="step hot"><b>Initial Access</b><small>T0093 Prompt infiltration via email</small></div>
+  <div class="step"><b>Defense Evasion</b><small>T0068 Obfuscation; T0071 false RAG entry; T0067.000 fake citations</small></div>
+  <div class="step hot"><b>Execution</b><small>T0051.001 Indirect injection; T0053 tool invocation</small></div>
+  <div class="step hot"><b>Impact</b><small>T0048.000 Financial harm (fraudulent bank details)</small></div>
+</div>
+
+<h3 id="3-shadowray-aml-cs0023-2023-24">3 · ShadowRay (AML.CS0023, 2023–24)</h3>
+<div class="flow">
+  <div class="step"><b>Recon</b><small>T0006 Active scanning for exposed Ray dashboards</small></div>
+  <div class="step hot"><b>Initial Access</b><small>T0049 Exploit public-facing app (unauthenticated Jobs API)</small></div>
+  <div class="step"><b>Collection</b><small>T0035 AI artifact collection (models, data)</small></div>
+  <div class="step"><b>Credential Access</b><small>T0055 Unsecured credentials (SSH, cloud, HF tokens)</small></div>
+  <div class="step"><b>Exfiltration</b><small>T0025 via cyber means</small></div>
+  <div class="step hot"><b>Impact</b><small>T0048.000 Financial harm (crypto-mining on GPUs)</small></div>
+</div>
+<p class="small"><b>Lesson:</b> most AI breaches start with classic infrastructure flaws. The lesson is network exposure and missing auth, not anything exotic about models.</p>
+
+<h3 id="4-poisongpt-aml-cs0019-2023">4 · PoisonGPT (AML.CS0019, 2023)</h3>
+<div class="flow">
+  <div class="step"><b>Resource Dev</b><small>T0002.001 Acquire public model (GPT-J-6B)</small></div>
+  <div class="step hot"><b>AI Attack Staging</b><small>T0018.000 Poison model (ROME edit)</small></div>
+  <div class="step"><b>AI Attack Staging</b><small>T0042 Verify attack (benchmarks still look normal)</small></div>
+  <div class="step"><b>Resource Dev</b><small>T0058 Publish poisoned model (look-alike repo name)</small></div>
+  <div class="step hot"><b>Initial Access</b><small>T0010.003 Supply chain: model</small></div>
+  <div class="step"><b>Impact</b><small>T0031 Erode integrity; T0048.001 reputational harm</small></div>
+</div>
+
+<h3 id="5-poisoned-postmark-mcp-server-aml-cs0053-sep-2025">5 · Poisoned postmark-mcp server (AML.CS0053, Sep 2025)</h3>
+<div class="flow">
+  <div class="step"><b>Defense Evasion</b><small>T0073 Impersonation (package named after the vendor)</small></div>
+  <div class="step"><b>Resource Dev</b><small>T0104 Publish poisoned AI agent tool</small></div>
+  <div class="step hot"><b>Defense Evasion</b><small>T0109 Supply-chain rug pull (good versions first)</small></div>
+  <div class="step hot"><b>Initial Access</b><small>T0010.005 AI agent tool (v1.0.16 upgrade)</small></div>
+  <div class="step"><b>Persistence</b><small>T0110 AI agent tool poisoning</small></div>
+  <div class="step hot"><b>Exfiltration</b><small>T0086 via agent tool invocation (BCC every email)</small></div>
+</div>
+
+<h2 id="other-case-studies-worth-citing" data-short="Case studies to cite">Other case studies worth citing</h2>
+<div class="tbl"><table>
+<thead><tr><th>ID</th><th>Case study</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td><code>CS0003</code></td><td>Bypassing Cylance's AI malware detection (2019)</td><td>Classic evasion: appending "goodware" strings fooled an ML AV</td></tr>
+<tr><td><code>CS0009</code></td><td>Tay poisoning (2016)</td><td>Online-learning poisoning by users</td></tr>
+<tr><td><code>CS0015</code></td><td>Compromised PyTorch dependency chain (2022)</td><td>AI software supply chain (torchtriton)</td></tr>
+<tr><td><code>CS0016</code></td><td>Code execution in MathGPT via prompt injection (2023)</td><td>Improper output handling → RCE</td></tr>
+<tr><td><code>CS0020</code></td><td>Indirect prompt injection: Bing Chat "data pirate"</td><td>The indirect injection archetype</td></tr>
+<tr><td><code>CS0021</code> / <code>CS0029</code></td><td>ChatGPT and Google Bard conversation exfiltration</td><td>Markdown image exfiltration</td></tr>
+<tr><td><code>CS0022</code></td><td>ChatGPT package hallucination</td><td>Slopsquatting</td></tr>
+<tr><td><code>CS0024</code></td><td>Morris II worm: RAG-based attack (2024)</td><td>Self-replicating prompts</td></tr>
+<tr><td><code>CS0025</code></td><td>Web-scale data poisoning: split-view attack</td><td>Poisoning datasets via expired domains</td></tr>
+<tr><td><code>CS0030</code></td><td>LLMjacking (2024)</td><td>Stolen cloud credentials → cost harvesting</td></tr>
+<tr><td><code>CS0031</code></td><td>Malicious models on Hugging Face (2025)</td><td>Pickle payloads evading scanners</td></tr>
+<tr><td><code>CS0040</code></td><td>Hacking ChatGPT's memories with prompt injection</td><td>Persistent memory poisoning</td></tr>
+<tr><td><code>CS0041</code></td><td>Rules File Backdoor (2025)</td><td>Hidden instructions in coding-assistant rules files</td></tr>
+<tr><td><code>CS0042</code></td><td>SesameOp: backdoor using OpenAI Assistants API for C2 (2025)</td><td>AI services as covert C2 channels</td></tr>
+<tr><td><code>CS0044</code></td><td>LAMEHUG: malware using AI-generated commands (2025)</td><td>Malware that queries LLMs at runtime</td></tr>
+<tr><td><code>CS0045</code></td><td>Data exfiltration via an MCP server used by Cursor (2025)</td><td>MCP + coding agent exfiltration</td></tr>
+<tr><td><code>CS0047</code></td><td>Destructive AI agent code in Amazon Q VS Code extension (2025)</td><td>Agent supply chain</td></tr>
+<tr><td><code>CS0055</code></td><td>AI ClickFix: hijacking computer-use agents (2025)</td><td>Social engineering the agent</td></tr>
+<tr><td><code>CS0056</code></td><td>Model distillation campaigns targeting Claude (2026)</td><td>Large-scale capability extraction</td></tr>
+</tbody></table></div>
+
+<h2 id="how-to-use-atlas-in-practice" data-short="Using ATLAS in practice">How to use ATLAS in practice</h2>
+<div class="grid two">
+  <div class="card"><h4>Threat modeling</h4><p>For each component in your DFD, ask which ATLAS techniques apply. Use Navigator layers to mark "relevant / mitigated / gap".</p></div>
+  <div class="card"><h4>Red team planning</h4><p>Build adversary emulation plans from case studies, e.g. "replicate CS0035 against our Slack-like assistant". Report findings with technique IDs.</p></div>
+  <div class="card"><h4>Detection engineering</h4><p>Map telemetry to techniques: prompt-injection classifier hits → T0051; abnormal query volume → T0024/T0034; tool calls after retrieval → T0053/T0086; new model hashes → T0010.</p></div>
+  <div class="card"><h4>Gap analysis &amp; reporting</h4><p>Show leadership a coverage heatmap of mitigations (M00xx) against the techniques relevant to your systems. Prioritize techniques with real case studies.</p></div>
+</div>
+
+<h2 id="atlas-vs-owasp-vs-nist-how-they-fit" data-short="ATLAS vs OWASP">ATLAS vs OWASP vs NIST: how they fit</h2>
+<div class="tbl"><table>
+<thead><tr><th></th><th>OWASP LLM / Agentic Top 10</th><th>MITRE ATLAS</th><th>NIST AI 100-2 / AI RMF</th></tr></thead>
+<tbody>
+<tr><td>Type</td><td>Prioritized risk list</td><td>Adversary TTP knowledge base</td><td>Taxonomy / risk-management framework</td></tr>
+<tr><td>Question answered</td><td>"What could go wrong in my app?"</td><td>"How do attackers actually do it, step by step?"</td><td>"What do we call it?" / "How do we govern risk?"</td></tr>
+<tr><td>Audience</td><td>Developers, AppSec</td><td>Red teams, threat intel, SOC, detection</td><td>Risk, compliance, leadership</td></tr>
+<tr><td>Granularity</td><td>10 categories</td><td>16 tactics, ~170 techniques &amp; sub-techniques</td><td>Attack classes / lifecycle functions</td></tr>
+<tr><td>Best for</td><td>Design reviews, secure coding, checklists</td><td>Threat modeling, emulation, detection mapping</td><td>Policy, program design, shared vocabulary</td></tr>
+</tbody></table></div>
+<div class="callout say"><span class="ct">Say this</span>"I use OWASP to make sure we've covered the right risk categories, ATLAS to think like the adversary and map detections and red-team tests to real techniques, and NIST AI RMF to run the governance program around both. In reports I tag findings with all three: an OWASP ID for developers, an ATLAS technique for the SOC, and an AI RMF function for risk owners."</div>
+
+</main>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OWASP Top 10 Web &amp; API</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem('aisec-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body>
+<nav id="sidebar" aria-label="Guide navigation"></nav>
+<main id="main">
+
+<header class="page-head">
+  <div class="eyebrow">Module 02 · Classic AppSec</div>
+  <h1>OWASP Top 10 (Web 2021 &amp; 2025) and API Security Top 10 (2023)</h1>
+  <p class="lede">AI apps are still web apps and APIs. Interviewers check that you know the classic lists and can explain how each risk comes back through an LLM or agent.</p>
+  <div class="meta"><span class="pill">⏱ 25 min</span><span class="pill">Priority ★★</span></div>
+</header>
+
+<div class="tldr"><div class="tldr-h">Key takeaways</div><ul>
+  <li>2025 list: Broken Access Control stays #1 and absorbs SSRF; new entries are <b>Software Supply Chain Failures</b> (A03) and <b>Mishandling of Exceptional Conditions</b> (A10).</li>
+  <li>API Top 10 (2023) is led by BOLA, which agents reproduce whenever the model chooses object IDs.</li>
+  <li>Every classic vulnerability has an AI path: output → XSS/SQLi/RCE, fetch tools → SSRF, pickled models → insecure deserialization.</li>
+  <li>Treat the LLM as an untrusted user inside your network.</li>
+</ul></div>
+
+
+<h2 id="what-the-owasp-top-10-is">What the OWASP Top 10 is</h2>
+<ul>
+  <li>An <b>awareness document</b> listing the most critical web application security risk <em>categories</em>, based on contributed vulnerability data (CWE incidence) plus a community survey for emerging risks.</li>
+  <li>Editions: 2003, 2004, 2007, 2010, 2013, 2017, <b>2021</b> and <b>2025</b>. Many teams and job descriptions still quote 2021, so know both.</li>
+  <li>It isn't a standard. For verifiable requirements, cite <b>OWASP ASVS</b> (Application Security Verification Standard). For program maturity, cite <b>OWASP SAMM</b>.</li>
+  <li>The GenAI lists (<a href="03-owasp-llm-top10.html">LLM Top 10</a>, <a href="04-owasp-agentic-top10.html">Agentic Top 10</a>) come from the <b>OWASP GenAI Security Project</b>.</li>
+</ul>
+
+<h2 id="2021-vs-2025-side-by-side" data-short="2021 vs 2025">2021 vs 2025 side by side</h2>
+<div class="tbl"><table>
+<thead><tr><th>#</th><th>OWASP Top 10: 2021</th><th>OWASP Top 10: 2025</th><th>What changed</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>A01 Broken Access Control</td><td><b>A01 Broken Access Control</b></td><td>Still #1; <b>SSRF merged in</b></td></tr>
+<tr><td>2</td><td>A02 Cryptographic Failures</td><td><b>A02 Security Misconfiguration</b></td><td>Misconfig up from #5</td></tr>
+<tr><td>3</td><td>A03 Injection</td><td><b>A03 Software Supply Chain Failures</b></td><td>Broadened from "Vulnerable &amp; Outdated Components" (#6) to dependencies, build systems and distribution</td></tr>
+<tr><td>4</td><td>A04 Insecure Design</td><td><b>A04 Cryptographic Failures</b></td><td>Down from #2</td></tr>
+<tr><td>5</td><td>A05 Security Misconfiguration</td><td><b>A05 Injection</b></td><td>Down from #3 (still includes XSS)</td></tr>
+<tr><td>6</td><td>A06 Vulnerable &amp; Outdated Components</td><td><b>A06 Insecure Design</b></td><td>Down from #4</td></tr>
+<tr><td>7</td><td>A07 Identification &amp; Authentication Failures</td><td><b>A07 Authentication Failures</b></td><td>Renamed</td></tr>
+<tr><td>8</td><td>A08 Software &amp; Data Integrity Failures</td><td><b>A08 Software or Data Integrity Failures</b></td><td>Same scope</td></tr>
+<tr><td>9</td><td>A09 Security Logging &amp; Monitoring Failures</td><td><b>A09 Security Logging &amp; Alerting Failures</b></td><td>Emphasis on <em>alerting</em></td></tr>
+<tr><td>10</td><td>A10 Server-Side Request Forgery</td><td><b>A10 Mishandling of Exceptional Conditions</b></td><td><b>New</b>: error handling, fail-open, logic errors</td></tr>
+</tbody></table></div>
+<div class="callout say"><span class="ct">Interview soundbite</span>"The 2025 edition keeps Broken Access Control at #1 and folds SSRF into it. It adds Software Supply Chain Failures and Mishandling of Exceptional Conditions. Both matter for AI: models, MCP servers and packages are supply chain, and guardrails that fail open on a timeout are an exceptional-conditions bug."</div>
+
+<h2 id="category-deep-dives-2025-order-with-the-ai-angle" data-short="Category deep dives">Category deep dives (2025 order, with the AI angle)</h2>
+
+<article class="risk" id="a01">
+  <header><span class="code">A01:2025</span><h3 id="broken-access-control">Broken Access Control</h3><span class="tag">2021: A01 + A10 SSRF</span></header>
+  <p class="def">Users or systems act outside their intended permissions: reading other users' data, calling admin functions, or making the server request internal resources.</p>
+  <div class="cols">
+    <div><h4>Examples</h4><ul>
+      <li>IDOR: <code>/invoice?id=1002</code> returns someone else's invoice</li>
+      <li>Missing function-level checks (user can call <code>/admin/*</code>)</li>
+      <li>JWT/cookie tampering, CORS misconfig, force browsing</li>
+      <li>SSRF: server fetches <code>http://169.254.169.254/</code> (cloud metadata), as in the Capital One 2019 breach</li>
+    </ul></div>
+    <div><h4>Prevention</h4><ul>
+      <li>Deny by default; enforce server-side in one central authZ layer</li>
+      <li>Check object ownership on every request; use unguessable IDs as defense in depth only</li>
+      <li>SSRF: allowlist destinations, block private/link-local ranges, disable redirects, use IMDSv2, segment the network</li>
+      <li>Log and alert on access-control failures; rate limit</li>
+    </ul></div>
+  </div>
+  <div class="callout info"><span class="ct">AI angle</span>An agent tool like <code>get_order(order_id)</code> where the LLM supplies the ID is <b>BOLA via the model</b>, so the tool must check ownership against the <em>user's</em> identity. RAG without document ACLs is broken access control. A "browse URL" or "fetch" tool is an <b>SSRF primitive</b> that prompt injection can aim at metadata endpoints.</div>
+</article>
+
+<article class="risk" id="a02">
+  <header><span class="code">A02:2025</span><h3 id="security-misconfiguration">Security Misconfiguration</h3><span class="tag">2021: A05</span></header>
+  <p class="def">Insecure defaults, missing hardening, unnecessary features, verbose errors, open cloud storage, or permissive headers. XXE is part of this category.</p>
+  <div class="cols">
+    <div><h4>Examples</h4><ul>
+      <li>Default admin credentials; directory listing; stack traces to users</li>
+      <li>Public S3/Blob buckets; permissive CORS; missing security headers</li>
+      <li>XML parsers with external entities enabled (XXE)</li>
+    </ul></div>
+    <div><h4>Prevention</h4><ul>
+      <li>Repeatable hardening (IaC + policy-as-code), minimal platforms</li>
+      <li>Automated configuration scanning (CSPM), environment parity</li>
+      <li>Segmented architecture; security headers; disable unused features</li>
+    </ul></div>
+  </div>
+  <div class="callout info"><span class="ct">AI angle</span>Internet-exposed <b>Jupyter, Ray, MLflow, Ollama, or vector DBs with no auth</b>. ShadowRay (2023–24) exploited the unauthenticated Ray Jobs API (CVE-2023-48022) on AI clusters. LLM gateways left in debug mode can leak prompts and keys.</div>
+</article>
+
+<article class="risk" id="a03">
+  <header><span class="code">A03:2025</span><h3 id="software-supply-chain-failures">Software Supply Chain Failures</h3><span class="tag">2021: A06 (broadened)</span></header>
+  <p class="def">Compromise or weakness anywhere in the chain of dependencies, build systems, CI/CD and distribution infrastructure, not just "outdated libraries".</p>
+  <div class="cols">
+    <div><h4>Examples</h4><ul>
+      <li>SolarWinds (build compromise), Log4Shell (vulnerable dependency)</li>
+      <li>xz-utils backdoor (2024, malicious maintainer)</li>
+      <li>Dependency confusion, typosquatting, self-propagating npm worms (e.g. "Shai-Hulud", 2025)</li>
+    </ul></div>
+    <div><h4>Prevention</h4><ul>
+      <li>SBOM + SCA; pin versions and verify hashes/signatures (Sigstore)</li>
+      <li>SLSA build provenance; hardened, least-privilege CI tokens</li>
+      <li>Private registries/mirrors; review new dependencies; patch SLAs</li>
+    </ul></div>
+  </div>
+  <div class="callout info"><span class="ct">AI angle</span>Models, datasets, LoRA adapters, prompt templates, plugins and <b>MCP servers</b> are all supply chain (LLM03, ASI04). Pickled models execute code on load. LLMs hallucinate package names that attackers then register ("slopsquatting"). Use an <b>AI-BOM</b> and model signing.</div>
+</article>
+
+<article class="risk" id="a04">
+  <header><span class="code">A04:2025</span><h3 id="cryptographic-failures">Cryptographic Failures</h3><span class="tag">2021: A02</span></header>
+  <p class="def">Failures in protecting data in transit and at rest: weak or no encryption, poor key management, weak randomness, unsalted fast password hashes.</p>
+  <div class="cols">
+    <div><h4>Examples</h4><ul>
+      <li>HTTP or TLS 1.0; MD5/SHA-1 passwords; ECB mode</li>
+      <li>Hard-coded keys; keys in Git; predictable tokens</li>
+    </ul></div>
+    <div><h4>Prevention</h4><ul>
+      <li>Classify data; encrypt sensitive data at rest and in transit (TLS 1.2+/1.3)</li>
+      <li>AES-GCM / ChaCha20-Poly1305; Argon2id/bcrypt/scrypt for passwords</li>
+      <li>KMS/HSM, key rotation, secrets managers; CSPRNG</li>
+    </ul></div>
+  </div>
+  <div class="callout info"><span class="ct">AI angle</span>API keys pasted into system prompts or notebooks; prompt and response logs with PII stored in plaintext; <b>embeddings stored unencrypted</b> even though they can be inverted back to text.</div>
+</article>
+
+<article class="risk" id="a05">
+  <header><span class="code">A05:2025</span><h3 id="injection">Injection</h3><span class="tag">2021: A03</span></header>
+  <p class="def">Untrusted data is sent to an interpreter as part of a command or query: SQL, NoSQL, OS command, LDAP, template/EL injection, and XSS.</p>
+  <div class="cols">
+    <div><h4>Examples</h4><ul>
+      <li><code>"SELECT * FROM users WHERE id = '" + id + "'"</code></li>
+      <li>Shell: <code>os.system("ping " + host)</code></li>
+      <li>Reflected, stored and DOM XSS; SSTI in Jinja2</li>
+    </ul></div>
+    <div><h4>Prevention</h4><ul>
+      <li>Parameterized queries / safe APIs / ORMs</li>
+      <li>Server-side allowlist validation; context-aware output encoding</li>
+      <li>CSP for XSS; least-privileged DB accounts</li>
+    </ul></div>
+  </div>
+  <div class="callout info"><span class="ct">AI angle</span><b>Prompt injection is injection into a natural-language interpreter, but with no parameterization available.</b> LLM output flowing into SQL (text-to-SQL), a shell, <code>eval</code> or HTML is classic injection with the model as the delivery mechanism (LLM05 Improper Output Handling).</div>
+</article>
+
+<article class="risk" id="a06">
+  <header><span class="code">A06:2025</span><h3 id="insecure-design">Insecure Design</h3><span class="tag">2021: A04</span></header>
+  <p class="def">Missing or ineffective security controls by design, as opposed to implementation bugs. A perfect implementation of an insecure design is still insecure.</p>
+  <div class="cols">
+    <div><h4>Examples</h4><ul>
+      <li>Password recovery via "security questions"</li>
+      <li>No rate limiting on a business flow (ticket scalping)</li>
+      <li>Trusting client-side checks</li>
+    </ul></div>
+    <div><h4>Prevention</h4><ul>
+      <li>Threat modeling in design; abuse/misuse cases</li>
+      <li>Secure design patterns and reference architectures</li>
+      <li>Secure SDLC with AppSec involvement; tiered segregation</li>
+    </ul></div>
+  </div>
+  <div class="callout info"><span class="ct">AI angle</span>Letting the LLM make authorization decisions; building an agent that combines private data, untrusted input and outbound communication (the <b>lethal trifecta</b>); no HITL on irreversible actions. These are design flaws that no guardrail fixes.</div>
+</article>
+
+<article class="risk" id="a07">
+  <header><span class="code">A07:2025</span><h3 id="authentication-failures">Authentication Failures</h3><span class="tag">2021: A07 Identification &amp; Auth.</span></header>
+  <p class="def">Weaknesses in confirming identity and managing sessions.</p>
+  <div class="cols">
+    <div><h4>Examples</h4><ul>
+      <li>Credential stuffing; no MFA; weak or default passwords</li>
+      <li>Session fixation; session IDs in URLs; no logout invalidation</li>
+    </ul></div>
+    <div><h4>Prevention</h4><ul>
+      <li>MFA / passkeys (FIDO2); breached-password checks</li>
+      <li>Rate limiting and lockout with care; secure session management</li>
+    </ul></div>
+  </div>
+  <div class="callout info"><span class="ct">AI angle</span><b>Non-human identity sprawl</b>: agents with long-lived API keys, shared service accounts, MCP servers with no authentication, tokens stored in agent memory or config files. Agents need their own identities and short-lived, audience-bound tokens.</div>
+</article>
+
+<article class="risk" id="a08">
+  <header><span class="code">A08:2025</span><h3 id="software-or-data-integrity-failures">Software or Data Integrity Failures</h3><span class="tag">2021: A08</span></header>
+  <p class="def">Code and infrastructure that don't protect against integrity violations: insecure deserialization, unsigned updates, untrusted CI/CD pipelines, untrusted CDNs.</p>
+  <div class="cols">
+    <div><h4>Examples</h4><ul>
+      <li>Java/Python native deserialization of untrusted data → RCE</li>
+      <li>Auto-update without signature verification</li>
+      <li>Scripts from a CDN without Subresource Integrity</li>
+    </ul></div>
+    <div><h4>Prevention</h4><ul>
+      <li>Digital signatures; SRI; verify integrity before use</li>
+      <li>Avoid native deserialization of untrusted data; use JSON with schemas</li>
+      <li>Protected CI/CD with code review and separation of duties</li>
+    </ul></div>
+  </div>
+  <div class="callout info"><span class="ct">AI angle</span><b>A pickled PyTorch model is insecure deserialization</b>: <code>torch.load()</code> on an untrusted <code>.pt</code>/<code>.bin</code> can execute code. Use <code>safetensors</code> or <code>weights_only=True</code>, scan with ModelScan, and sign models. Poisoned datasets are data-integrity failures.</div>
+</article>
+
+<article class="risk" id="a09">
+  <header><span class="code">A09:2025</span><h3 id="security-logging-alerting-failures">Security Logging &amp; Alerting Failures</h3><span class="tag">2021: A09</span></header>
+  <p class="def">Insufficient logging, monitoring and alerting to detect and respond to breaches.</p>
+  <div class="cols">
+    <div><h4>Examples</h4><ul>
+      <li>Login failures not logged; logs only local; no alert thresholds</li>
+      <li>Log injection; sensitive data written to logs</li>
+    </ul></div>
+    <div><h4>Prevention</h4><ul>
+      <li>Log security events with context; centralize (SIEM); tamper-evident storage</li>
+      <li>Alerting with tested thresholds; incident response plan (NIST SP 800-61)</li>
+    </ul></div>
+  </div>
+  <div class="callout info"><span class="ct">AI angle</span>Log prompts, retrieved chunk IDs, tool calls, approvals and model versions, with PII redaction. Without these you <b>cannot reconstruct a prompt-injection incident</b>. Alert on injection-classifier hits, unusual tool sequences, spend spikes and egress to new domains.</div>
+</article>
+
+<article class="risk" id="a10">
+  <header><span class="code">A10:2025</span><h3 id="mishandling-of-exceptional-conditions">Mishandling of Exceptional Conditions</h3><span class="tag r">New in 2025</span></header>
+  <p class="def">Improper handling of errors and abnormal states: failing open, unchecked return values, information-leaking errors, inconsistent state after partial failures.</p>
+  <div class="cols">
+    <div><h4>Examples</h4><ul>
+      <li>Auth service times out, so the app lets the request through (fail open)</li>
+      <li>Stack traces revealing internals; partial transactions not rolled back</li>
+      <li>Race conditions in error paths</li>
+    </ul></div>
+    <div><h4>Prevention</h4><ul>
+      <li>Fail closed / secure defaults; centralized exception handling</li>
+      <li>Atomic transactions with rollback; generic user-facing errors</li>
+      <li>Test error paths and timeouts explicitly (chaos / fault injection)</li>
+    </ul></div>
+  </div>
+  <div class="callout info"><span class="ct">AI angle</span>The <b>content-safety API times out and the app sends the unfiltered prompt anyway</b>. The model returns malformed JSON and a "lenient" parser falls back to executing raw text. Tool error messages are fed back into the context, where an attacker can plant instructions in them.</div>
+</article>
+
+<h2 id="owasp-api-security-top-10-2023" data-short="API Top 10 (2023)">OWASP API Security Top 10 (2023)</h2>
+<p>Agents talk to the world through APIs, so this list matters as much as the web one in AI roles.</p>
+<div class="tbl"><table>
+<thead><tr><th>ID</th><th>Risk</th><th>What it means</th><th>AI / agent angle</th></tr></thead>
+<tbody>
+<tr><td><code>API1</code></td><td><b>Broken Object Level Authorization (BOLA)</b></td><td>No per-object ownership check (IDOR)</td><td>LLM-chosen IDs in tool calls; cross-tenant data via agent tools</td></tr>
+<tr><td><code>API2</code></td><td><b>Broken Authentication</b></td><td>Weak auth mechanisms, token flaws</td><td>MCP servers without auth; leaked agent API keys</td></tr>
+<tr><td><code>API3</code></td><td><b>Broken Object Property Level Authorization</b></td><td>Excessive data exposure + mass assignment</td><td>Tool returns whole user objects (PII) into context; LLM sets <code>is_admin=true</code> in an update tool</td></tr>
+<tr><td><code>API4</code></td><td><b>Unrestricted Resource Consumption</b></td><td>No limits on requests, payloads, cost</td><td>Denial of wallet; agent loops calling paid APIs (LLM10)</td></tr>
+<tr><td><code>API5</code></td><td><b>Broken Function Level Authorization (BFLA)</b></td><td>Users can call privileged functions</td><td>Agent exposes admin tools to every user</td></tr>
+<tr><td><code>API6</code></td><td><b>Unrestricted Access to Sensitive Business Flows</b></td><td>Automatable abuse of a flow (scalping, spam)</td><td>AI agents automate abuse at scale; bots buy out inventory</td></tr>
+<tr><td><code>API7</code></td><td><b>Server Side Request Forgery</b></td><td>Server fetches attacker-chosen URLs</td><td>URL-fetch / browser tools; webhook tools; image-from-URL features</td></tr>
+<tr><td><code>API8</code></td><td><b>Security Misconfiguration</b></td><td>Default configs, verbose errors, missing TLS</td><td>Exposed inference endpoints; debug LLM gateways</td></tr>
+<tr><td><code>API9</code></td><td><b>Improper Inventory Management</b></td><td>Unknown/old API versions and hosts</td><td><b>Shadow AI</b>: unregistered agents, MCP servers, model endpoints</td></tr>
+<tr><td><code>API10</code></td><td><b>Unsafe Consumption of APIs</b></td><td>Trusting third-party API data blindly</td><td>Treating tool / MCP / third-party agent output as trusted, which is indirect prompt injection</td></tr>
+</tbody></table></div>
+
+<h2 id="how-classic-vulnerabilities-come-back-through-ai" data-short="Classic vulns via AI">How classic vulnerabilities come back through AI</h2>
+<div class="tbl"><table>
+<thead><tr><th>Classic vuln</th><th>AI path</th><th>Fix</th></tr></thead>
+<tbody>
+<tr><td>XSS</td><td>LLM output rendered as HTML/Markdown in the chat UI</td><td>Encode output; sanitize Markdown; strict CSP; no raw HTML rendering</td></tr>
+<tr><td>SQL injection</td><td>Text-to-SQL agents run generated queries</td><td>Read-only DB role, query allowlists/templates, row-level security, parse and validate the AST</td></tr>
+<tr><td>Command injection / RCE</td><td>Code interpreter or shell tools run generated code</td><td>Sandboxed, ephemeral, network-isolated execution; no host access</td></tr>
+<tr><td>SSRF</td><td>Fetch/browse tools follow injected URLs</td><td>Egress proxy with allowlist; block internal ranges and metadata IPs</td></tr>
+<tr><td>IDOR / BOLA</td><td>The model chooses object IDs</td><td>Tool enforces ownership with the user's token, never trusts the model's choice</td></tr>
+<tr><td>CSRF-like</td><td>Indirect injection makes the agent perform actions "as the user"</td><td>Confirmation for state changes; intent verification; scoped tokens</td></tr>
+<tr><td>Insecure deserialization</td><td>Loading pickled models</td><td>safetensors; scanning; signing</td></tr>
+<tr><td>Path traversal</td><td>File tools with model-supplied paths</td><td>Canonicalize and jail to a directory; allowlist</td></tr>
+<tr><td>Log injection</td><td>Prompts with control characters or fake log lines</td><td>Structured logging; encode fields</td></tr>
+</tbody></table></div>
+<div class="callout say"><span class="ct">Interview soundbite</span>"I treat the LLM as an untrusted user sitting inside my network. Anything it outputs gets the same validation I'd apply to input from the internet, and every tool it can call enforces authorization with the end user's identity."</div>
+
+</main>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
